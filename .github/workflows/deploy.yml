@@ -15,8 +15,9 @@ jobs:
       - name: Deploy via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: p700904.webspaceconfig.de
-          username: p700904
+          host: ${{ secrets.MITTWALD_HOST }}
+          port: ${{ secrets.MITTWALD_PORT }}
+          username: ${{ secrets.MITTWALD_USER }}
           key: ${{ secrets.MITTWALD_SSH_KEY }}
           source: "*.html,assets/"
-          target: ${{ secrets.MITTWALD_TARGET_PATH }}
+          target: ${{ secrets.MITTWALD_DEPLOY_PATH }}
