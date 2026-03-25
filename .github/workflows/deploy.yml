@@ -12,13 +12,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.MITTWALD_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.MITTWALD_PORT }} ${{ secrets.MITTWALD_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Test SSH Connection
+        run: |
+          ssh -v -i ~/.ssh/deploy_key -p ${{ secrets.MITTWALD_PORT }} ${{ secrets.MITTWALD_USER }}@${{ secrets.MITTWALD_HOST }} "echo SSH OK"
+
       - name: Deploy via SCP
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.MITTWALD_HOST }}
-          port: ${{ secrets.MITTWALD_PORT }}
-          username: ${{ secrets.MITTWALD_USER }}
-          key: ${{ secrets.MITTWALD_SSH_KEY }}
-          source: "*.html,assets/"
-          target: ${{ secrets.MITTWALD_DEPLOY_PATH }}
-          debug: true
+        run: |
+          scp -i ~/.ssh/deploy_key -P ${{ secrets.MITTWALD_PORT }} -r *.html assets/ ${{ secrets.MITTWALD_USER }}@${{ secrets.MITTWALD_HOST }}:${{ secrets.MITTWALD_DEPLOY_PATH }}
