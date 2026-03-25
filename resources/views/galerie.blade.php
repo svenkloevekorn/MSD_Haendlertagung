@@ -55,43 +55,87 @@
         </div>
     </section>
 
-    <!-- Galerie Grid (Platzhalter) -->
+    <!-- Galerie Grid -->
     <section class="py-16 bg-white">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <!-- Platzhalter-Bilder -->
-                <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-                    <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            @if($images->count() > 0)
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    @foreach($images as $image)
+                        <div class="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 cursor-pointer" onclick="openLightbox({{ $loop->index }})">
+                            <img src="{{ route('galerie.image', $image) }}" alt="{{ $image->title ?? 'Galerie-Bild' }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                            @if($image->title)
+                                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition">
+                                    <p class="text-white text-sm font-medium">{{ $image->title }}</p>
+                                    @if($image->description)
+                                        <p class="text-white/70 text-xs mt-0.5">{{ $image->description }}</p>
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
-                <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-                    <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-                <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-                    <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-                <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-                    <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-                <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-                    <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-                <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-                    <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-                <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-                    <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-                <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center">
-                    <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-            </div>
 
-            <div class="mt-12 text-center">
-                <div class="inline-flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-xl">
-                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <p class="text-sm text-gray-500">Bilder werden nach der Veranstaltung hier veröffentlicht.</p>
+                <!-- Lightbox -->
+                <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center" onclick="closeLightbox(event)">
+                    <button onclick="closeLightbox(event)" class="absolute top-6 right-6 text-white/70 hover:text-white transition">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                    <button onclick="prevImage(event)" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button onclick="nextImage(event)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                    <img id="lightbox-img" src="" alt="" class="max-h-[85vh] max-w-[90vw] object-contain">
+                    <div id="lightbox-caption" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white text-sm text-center"></div>
                 </div>
-            </div>
+
+                <script>
+                    const images = @json($imagesJson);
+                    let currentIndex = 0;
+
+                    function openLightbox(index) {
+                        currentIndex = index;
+                        showImage();
+                        document.getElementById('lightbox').classList.remove('hidden');
+                        document.getElementById('lightbox').classList.add('flex');
+                        document.body.style.overflow = 'hidden';
+                    }
+
+                    function closeLightbox(e) {
+                        if (e.target === document.getElementById('lightbox') || e.currentTarget.tagName === 'BUTTON') {
+                            document.getElementById('lightbox').classList.add('hidden');
+                            document.getElementById('lightbox').classList.remove('flex');
+                            document.body.style.overflow = '';
+                        }
+                    }
+
+                    function prevImage(e) { e.stopPropagation(); currentIndex = (currentIndex - 1 + images.length) % images.length; showImage(); }
+                    function nextImage(e) { e.stopPropagation(); currentIndex = (currentIndex + 1) % images.length; showImage(); }
+
+                    function showImage() {
+                        const img = images[currentIndex];
+                        document.getElementById('lightbox-img').src = img.src;
+                        document.getElementById('lightbox-img').alt = img.title || '';
+                        const caption = [img.title, img.description].filter(Boolean).join(' — ');
+                        document.getElementById('lightbox-caption').textContent = caption;
+                    }
+
+                    document.addEventListener('keydown', function(e) {
+                        if (document.getElementById('lightbox').classList.contains('hidden')) return;
+                        if (e.key === 'Escape') { document.getElementById('lightbox').classList.add('hidden'); document.getElementById('lightbox').classList.remove('flex'); document.body.style.overflow = ''; }
+                        if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + images.length) % images.length; showImage(); }
+                        if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % images.length; showImage(); }
+                    });
+                </script>
+            @else
+                <div class="text-center py-12">
+                    <div class="inline-flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-xl">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <p class="text-sm text-gray-500">Bilder werden nach der Veranstaltung hier veröffentlicht.</p>
+                    </div>
+                </div>
+            @endif
         </div>
     </section>
 

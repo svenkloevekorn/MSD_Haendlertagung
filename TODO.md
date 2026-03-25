@@ -10,7 +10,7 @@
 - [ ] Formularfelder finalisieren
 - [ ] Formular-Handling (Backend/E-Mail)
 - [ ] Ansprechpartner mit echten Daten befüllen
-- [ ] Bilder/Galerie nach dem Event hochladen
+- [ ] Galerie-Bilder im Admin hochladen und freischalten
 - [ ] Download-Dateien im Admin hochladen und freischalten
 - [ ] Deploy-Workflow fuer Laravel anpassen
 - [ ] Personalisierung auf geschuetzten Seiten ("Willkommen, Vorname")
@@ -38,3 +38,4 @@
 - [x] Download-Verwaltung (Upload, Status draft/live, geschuetzter Download)
 - [x] Haendler Excel-Import/Export
 - [x] PIN alphanumerisch, case-insensitive
+- [x] Galerie-Verwaltung (Upload, Status, Lightbox, geschuetzt)
