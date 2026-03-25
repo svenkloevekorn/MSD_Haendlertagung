@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anmeldung – Händlertagung 2026 | Mühlen Sohn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { green: '#0EA039', dark: '#565656' } } } } }
+    </script>
+</head>
+<body class="font-sans text-gray-800 antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="{{ route('startseite') }}" class="flex items-center gap-3"><img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn" class="h-10"></a>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+                <a href="{{ route('startseite') }}" class="hover:text-gray-900 transition">Startseite</a>
+                <a href="{{ route('agenda') }}" class="hover:text-gray-900 transition">Agenda</a>
+                <a href="{{ route('formular') }}" class="text-gray-900">Anmeldung</a>
+                <a href="{{ route('galerie') }}" class="hover:text-gray-900 transition">Galerie</a>
+                <a href="{{ route('downloads') }}" class="hover:text-gray-900 transition">Downloads</a>
+                <a href="{{ route('feedback') }}" class="hover:text-gray-900 transition">Feedback</a>
+                <a href="{{ route('kontakt') }}" class="hover:text-gray-900 transition">Kontakt</a>
+                <form method="POST" action="{{ route('logout') }}" class="ml-4">
+                    @csrf
+                    <button type="submit" class="text-gray-400 hover:text-red-500 transition" title="Abmelden">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            <button id="menu-toggle" class="md:hidden p-2 text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
+            <div class="px-6 py-4 flex flex-col gap-3 text-sm font-medium text-gray-600">
+                <a href="{{ route('startseite') }}">Startseite</a><a href="{{ route('agenda') }}">Agenda</a><a href="{{ route('formular') }}" class="text-gray-900">Anmeldung</a><a href="{{ route('galerie') }}">Galerie</a><a href="{{ route('downloads') }}">Downloads</a><a href="{{ route('feedback') }}">Feedback</a><a href="{{ route('kontakt') }}">Kontakt</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="text-red-500 hover:text-red-600">Abmelden</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="pt-32 pb-16 md:pt-40 md:pb-20 bg-gradient-to-br from-gray-50 to-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <p class="text-sm font-semibold uppercase tracking-widest text-gray-400 mb-4">Teilnehmer</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Anmeldung</h1>
+            <p class="text-lg text-gray-500 max-w-2xl">Bitte füllen Sie das folgende Formular vollständig aus. Ihre Angaben helfen uns bei der Organisation.</p>
+        </div>
+    </section>
+
+    <!-- Formular -->
+    <section class="py-16 bg-white">
+        <div class="max-w-2xl mx-auto px-6">
+            <form class="space-y-8">
+                <!-- Persönliche Daten -->
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Persönliche Daten</h2>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Vorname *</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Nachname *</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">E-Mail *</label>
+                            <input type="email" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Handynummer *</label>
+                            <input type="tel" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 ...">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Firma</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Begleitperson -->
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Begleitperson</h2>
+                    <div class="space-y-5">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="partner-check" class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
+                            <label for="partner-check" class="text-sm text-gray-700">Ich bringe eine Begleitperson mit</label>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Vorname Begleitperson</label>
+                                <input type="text" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Nachname Begleitperson</label>
+                                <input type="text" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verpflegung -->
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Verpflegung</h2>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Unverträglichkeiten / Allergien</label>
+                        <textarea rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="z. B. Laktoseintoleranz, Nussallergie, vegetarisch ..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Optionale Teilnahme -->
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Optionale Teilnahme</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="factory-tour" class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
+                            <label for="factory-tour" class="text-sm text-gray-700">Betriebsbesichtigung am Donnerstag (inkl. Bustransfer)</label>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="whatsapp" class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
+                            <label for="whatsapp" class="text-sm text-gray-700">Aufnahme in die WhatsApp-Gruppe</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Anmerkungen -->
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Sonstiges</h2>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Anmerkungen</label>
+                        <textarea rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="Sonstige Hinweise oder Wünsche ..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-3.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition text-sm">
+                    Anmeldung absenden
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-gray-900 text-gray-400">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3"><img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn" class="h-8 brightness-0 invert opacity-60"><span class="text-sm">Händlertagung 2026</span></div>
+                <div class="flex flex-wrap gap-6 text-sm"><a href="{{ route('kontakt') }}" class="hover:text-white transition">Kontakt</a><a href="https://www.muehlen-sohn.de" target="_blank" class="hover:text-white transition">muehlen-sohn.de</a></div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-xs text-gray-500">&copy; 2026 Mühlen Sohn. Alle Rechte vorbehalten.</div>
+        </div>
+    </footer>
+
+    <script>document.getElementById('menu-toggle').addEventListener('click', function() { document.getElementById('mobile-menu').classList.toggle('hidden'); });</script>
+</body>
+</html>

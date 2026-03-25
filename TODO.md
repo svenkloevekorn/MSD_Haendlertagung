@@ -12,7 +12,8 @@
 - [ ] Ansprechpartner mit echten Daten befüllen
 - [ ] Bilder/Galerie nach dem Event hochladen
 - [ ] Präsentationen als Downloads bereitstellen
-- [ ] Login/Passwortschutz implementieren
+- [ ] Deploy-Workflow fuer Laravel anpassen
+- [ ] Personalisierung auf geschuetzten Seiten ("Willkommen, Vorname")
 - [ ] Freizeit-Agenda Inhalte ergänzen
 - [ ] Partner-Agenda Details ergänzen
 - [ ] Ort/Location auf Startseite ergänzen
@@ -29,3 +30,8 @@
 - [x] Kontakt-Seite mit Ansprechpartnern + Formular
 - [x] Logo eingebunden
 - [x] Responsive Navigation mit Mobile-Menü
+- [x] Login/Passwortschutz implementieren (Laravel + PIN-Auth + Filament Admin)
+- [x] Laravel 12 Setup mit Herd
+- [x] Filament Admin-Panel fuer Haendlerverwaltung
+- [x] Seeder und Factory fuer Testdaten
+- [x] Feature-Tests (9 Tests, alle bestanden)
