@@ -21,8 +21,13 @@ jobs:
 
       - name: Test SSH Connection
         run: |
-          ssh -v -i ~/.ssh/deploy_key -p ${{ secrets.MITTWALD_PORT }} ${{ secrets.MITTWALD_USER }}@${{ secrets.MITTWALD_HOST }} "echo SSH OK"
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.MITTWALD_PORT }} ${{ secrets.MITTWALD_USER }}@${{ secrets.MITTWALD_HOST }} "echo SSH OK"
 
       - name: Deploy via SCP
+        env:
+          DEPLOY_HOST: ${{ secrets.MITTWALD_HOST }}
+          DEPLOY_PORT: ${{ secrets.MITTWALD_PORT }}
+          DEPLOY_USER: ${{ secrets.MITTWALD_USER }}
+          DEPLOY_PATH: ${{ secrets.MITTWALD_DEPLOY_PATH }}
         run: |
-          scp -i ~/.ssh/deploy_key -P ${{ secrets.MITTWALD_PORT }} -r *.html assets/ ${{ secrets.MITTWALD_USER }}@${{ secrets.MITTWALD_HOST }}:${{ secrets.MITTWALD_DEPLOY_PATH }}
+          scp -i ~/.ssh/deploy_key -P "${DEPLOY_PORT}" -r *.html assets/ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}"
