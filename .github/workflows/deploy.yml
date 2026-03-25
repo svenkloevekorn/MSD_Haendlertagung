@@ -21,3 +21,4 @@ jobs:
           key: ${{ secrets.MITTWALD_SSH_KEY }}
           source: "*.html,assets/"
           target: ${{ secrets.MITTWALD_DEPLOY_PATH }}
+          debug: true
