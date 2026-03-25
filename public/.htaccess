@@ -4,6 +4,7 @@
     </IfModule>
 
     RewriteEngine On
+    RewriteBase /haendlertagung2026/public/
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
