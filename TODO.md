@@ -12,7 +12,6 @@
 - [ ] Ansprechpartner mit echten Daten befüllen
 - [ ] Galerie-Bilder im Admin hochladen und freischalten
 - [ ] Download-Dateien im Admin hochladen und freischalten
-- [ ] Deploy-Workflow fuer Laravel anpassen
 - [ ] Personalisierung auf geschuetzten Seiten ("Willkommen, Vorname")
 - [ ] Freizeit-Agenda Inhalte ergänzen
 - [ ] Partner-Agenda Details ergänzen
@@ -39,3 +38,5 @@
 - [x] Haendler Excel-Import/Export
 - [x] PIN alphanumerisch, case-insensitive
 - [x] Galerie-Verwaltung (Upload, Status, Lightbox, geschuetzt)
+- [x] Deploy-Workflow fuer Laravel (rsync, composer, migrate, auto-deploy auf main)
+- [x] Mittwald Staging: haendlertagung-staging.beqn.io
