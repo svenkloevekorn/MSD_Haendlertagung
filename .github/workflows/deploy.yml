@@ -6,8 +6,27 @@ on:
       - main
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run Tests
+        run: php artisan test
+
   deploy:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,15 +38,39 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p ${{ secrets.MITTWALD_PORT }} ${{ secrets.MITTWALD_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Test SSH Connection
-        run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.MITTWALD_PORT }} ${{ secrets.MITTWALD_USER }}@${{ secrets.MITTWALD_HOST }} "echo SSH OK"
-
-      - name: Deploy via SCP
+      - name: Deploy via rsync
         env:
           DEPLOY_HOST: ${{ secrets.MITTWALD_HOST }}
           DEPLOY_PORT: ${{ secrets.MITTWALD_PORT }}
           DEPLOY_USER: ${{ secrets.MITTWALD_USER }}
           DEPLOY_PATH: ${{ secrets.MITTWALD_DEPLOY_PATH }}
         run: |
-          scp -i ~/.ssh/deploy_key -P "${DEPLOY_PORT}" -r *.html assets/ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}"
+          rsync -avz --delete \
+            --exclude='.env' \
+            --exclude='storage/' \
+            --exclude='bootstrap/cache/' \
+            --exclude='.git/' \
+            --exclude='node_modules/' \
+            --exclude='tests/' \
+            --exclude='_old_html/' \
+            --exclude='.github/' \
+            -e "ssh -i ~/.ssh/deploy_key -p ${DEPLOY_PORT}" \
+            ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}"
+
+      - name: Post-deploy commands
+        env:
+          DEPLOY_HOST: ${{ secrets.MITTWALD_HOST }}
+          DEPLOY_PORT: ${{ secrets.MITTWALD_PORT }}
+          DEPLOY_USER: ${{ secrets.MITTWALD_USER }}
+          DEPLOY_PATH: ${{ secrets.MITTWALD_DEPLOY_PATH }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -p "${DEPLOY_PORT}" "${DEPLOY_USER}@${DEPLOY_HOST}" "
+            cd ${DEPLOY_PATH} &&
+            composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader &&
+            php artisan migrate --force &&
+            php artisan config:cache &&
+            php artisan route:cache &&
+            php artisan view:cache &&
+            php artisan storage:link 2>/dev/null || true &&
+            echo 'Deploy erfolgreich!'
+          "
