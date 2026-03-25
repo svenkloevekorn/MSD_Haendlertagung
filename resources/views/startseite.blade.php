@@ -86,6 +86,7 @@
                     <span class="text-gray-400 font-light">2026</span>
                 </h1>
                 <p class="text-lg md:text-xl text-gray-500 leading-relaxed mb-10 max-w-2xl">
+                    @if($dealer)Willkommen, {{ $dealer->first_name }} {{ $dealer->last_name }}! @endif
                     Wir laden Sie herzlich zu unserer diesjährigen Händlertagung ein.
                     Drei Tage voller Austausch, Einblicke und gemeinsamer Erlebnisse.
                 </p>
