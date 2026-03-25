@@ -11,7 +11,7 @@
 - [ ] Formular-Handling (Backend/E-Mail)
 - [ ] Ansprechpartner mit echten Daten befüllen
 - [ ] Bilder/Galerie nach dem Event hochladen
-- [ ] Präsentationen als Downloads bereitstellen
+- [ ] Download-Dateien im Admin hochladen und freischalten
 - [ ] Deploy-Workflow fuer Laravel anpassen
 - [ ] Personalisierung auf geschuetzten Seiten ("Willkommen, Vorname")
 - [ ] Freizeit-Agenda Inhalte ergänzen
@@ -35,3 +35,6 @@
 - [x] Filament Admin-Panel fuer Haendlerverwaltung
 - [x] Seeder und Factory fuer Testdaten
 - [x] Feature-Tests (9 Tests, alle bestanden)
+- [x] Download-Verwaltung (Upload, Status draft/live, geschuetzter Download)
+- [x] Haendler Excel-Import/Export
+- [x] PIN alphanumerisch, case-insensitive

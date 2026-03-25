@@ -62,16 +62,22 @@ php artisan test
 
 | Datei | Beschreibung |
 |-------|-------------|
-| `app/Models/Dealer.php` | Haendler-Model (PIN gehasht) |
+| `app/Models/Dealer.php` | Haendler-Model (PIN Klartext, uppercase) |
+| `app/Models/Download.php` | Download-Model mit Status (draft/live) |
+| `app/Http/Controllers/DownloadController.php` | Download-Seite und geschuetzter Datei-Download |
 | `app/Http/Controllers/PinLoginController.php` | Login/Logout Logik |
 | `app/Http/Middleware/CheckPin.php` | Session-Pruefung |
 | `routes/web.php` | Alle Routes |
 | `resources/views/login.blade.php` | Login-Seite (Particle Animation) |
 | `resources/views/*.blade.php` | Alle geschuetzten Seiten |
 | `app/Filament/Resources/Dealers/` | Filament CRUD fuer Haendler |
+| `app/Filament/Resources/Downloads/` | Filament CRUD fuer Downloads |
+| `app/Filament/Exports/DealerExporter.php` | Haendler Excel-Export |
+| `app/Filament/Imports/DealerImporter.php` | Haendler Excel-Import (Upsert via E-Mail) |
 | `database/seeders/` | Test-Daten |
 | `database/factories/DealerFactory.php` | Factory fuer Tests |
-| `tests/Feature/PinLoginTest.php` | 9 Feature-Tests |
+| `tests/Feature/PinLoginTest.php` | 13 PIN-Login-Tests |
+| `tests/Feature/DownloadTest.php` | 6 Download-Tests |
 
 ### Datenbank-Schema
 
@@ -82,8 +88,22 @@ php artisan test
 | first_name | string | Vorname |
 | last_name | string | Nachname |
 | email | string (unique) | E-Mail |
-| pin | string (unique, gehasht) | 6-stelliger Zugangscode |
+| pin | string (unique, Klartext, uppercase) | 6-stelliger alphanumerischer Zugangscode |
 | last_login_at | timestamp (nullable) | Letzter Login |
+| created_at | timestamp | Erstellt |
+| updated_at | timestamp | Aktualisiert |
+
+#### `downloads`
+| Feld | Typ | Beschreibung |
+|------|-----|-------------|
+| id | bigint | Primary Key |
+| name | string | Anzeigename |
+| description | text (nullable) | Optionale Beschreibung |
+| file_path | string | Pfad im private Storage |
+| original_filename | string | Originaler Dateiname |
+| file_size | bigint | Dateigroesse in Bytes |
+| status | string | `draft` oder `live` |
+| sort_order | integer | Reihenfolge |
 | created_at | timestamp | Erstellt |
 | updated_at | timestamp | Aktualisiert |
 
@@ -101,6 +121,7 @@ php artisan test
 | `/formular` | GET | PIN | Teilnehmerformular |
 | `/feedback` | GET | PIN | Feedback |
 | `/kontakt` | GET | PIN | Kontakt |
+| `/downloads/{id}/file` | GET | PIN | Datei herunterladen (private Storage) |
 | `/admin` | GET | Filament Auth | Admin-Panel |
 
 ## Deployment

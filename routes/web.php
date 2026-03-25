@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\PinLoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +14,8 @@ Route::middleware('pin')->group(function () {
     Route::get('/startseite', fn () => view('startseite'))->name('startseite');
     Route::get('/agenda', fn () => view('agenda'))->name('agenda');
     Route::get('/galerie', fn () => view('galerie'))->name('galerie');
-    Route::get('/downloads', fn () => view('downloads'))->name('downloads');
+    Route::get('/downloads', [DownloadController::class, 'index'])->name('downloads');
+    Route::get('/downloads/{download}/file', [DownloadController::class, 'file'])->name('downloads.file');
     Route::get('/formular', fn () => view('formular'))->name('formular');
     Route::get('/feedback', fn () => view('feedback'))->name('feedback');
     Route::get('/kontakt', fn () => view('kontakt'))->name('kontakt');
