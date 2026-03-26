@@ -88,18 +88,11 @@
     <section class="sticky top-[73px] bg-white border-b border-gray-200 z-40">
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex gap-1 overflow-x-auto" id="day-tabs">
-                <button data-day="montag" class="day-tab px-5 py-4 text-sm font-medium text-gray-900 border-b-2 border-gray-900 whitespace-nowrap">
-                    Mo, 28.06.
-                </button>
-                <button data-day="dienstag" class="day-tab px-5 py-4 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap">
-                    Di, 29.06.
-                </button>
-                <button data-day="mittwoch" class="day-tab px-5 py-4 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap">
-                    Mi, 30.06.
-                </button>
-                <button data-day="donnerstag" class="day-tab px-5 py-4 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap">
-                    Do, 01.07.
-                </button>
+                @foreach($days as $day)
+                    <button data-day="day-{{ $day->id }}" class="day-tab px-5 py-4 text-sm font-medium {{ $loop->first ? 'text-gray-900 border-b-2 border-gray-900' : 'text-gray-400 border-b-2 border-transparent hover:text-gray-600' }} whitespace-nowrap">
+                        {{ $day->tab_label }}
+                    </button>
+                @endforeach
                 <button data-day="partner" class="day-tab px-5 py-4 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap">
                     Partnerprogramm
                 </button>
@@ -111,217 +104,38 @@
     <section class="py-16 bg-white">
         <div class="max-w-6xl mx-auto px-6">
 
-            <!-- Montag -->
-            <div id="montag" class="day-content">
-                <div class="flex items-center gap-4 mb-10">
-                    <div class="flex-shrink-0 w-16 h-16 bg-gray-100 rounded-2xl flex flex-col items-center justify-center">
-                        <span class="text-xs font-medium text-gray-400 uppercase leading-none">Mo</span>
-                        <span class="text-xl font-bold text-gray-900 leading-none mt-0.5">28</span>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Montag – Anreisetag</h2>
-                        <p class="text-gray-400 text-sm">28. Juni 2026</p>
-                    </div>
-                </div>
-                <div class="space-y-0 ml-8 border-l-2 border-gray-100 pl-8">
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Nachmittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Check-in im Hotel</h3>
-                        <p class="text-gray-500 text-sm mt-1">Ankunft und Zimmerbezug im Hotel Lago</p>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">19:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Gemeinsames Abendessen</h3>
-                        <p class="text-gray-500 text-sm mt-1">Restaurant wird noch bekannt gegeben</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Dienstag -->
-            <div id="dienstag" class="day-content hidden">
-                <div class="flex items-center gap-4 mb-10">
-                    <div class="flex-shrink-0 w-16 h-16 bg-gray-100 rounded-2xl flex flex-col items-center justify-center">
-                        <span class="text-xs font-medium text-gray-400 uppercase leading-none">Di</span>
-                        <span class="text-xl font-bold text-gray-900 leading-none mt-0.5">29</span>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Dienstag – Tag 1</h2>
-                        <p class="text-gray-400 text-sm">29. Juni 2026 · Meeting Day</p>
-                    </div>
-                </div>
-                <div class="space-y-0 ml-8 border-l-2 border-gray-100 pl-8">
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">ab 08:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Check-in & Empfang</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-900"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">09:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Eröffnung & Begrüßung</h3>
-                        <p class="text-gray-500 text-sm mt-1">The Next Generation</p>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Vormittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Sales Insights</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Vormittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">SMP Insights</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-gray-200 border-2 border-gray-200"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">12:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-500">Lunch</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">13:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Highlights and Challenges in Sales</h3>
-                        <p class="text-gray-500 text-sm mt-1">Invite from our Sales Partners</p>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Nachmittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Quality Report</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Nachmittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Controlling with Power BI</h3>
-                    </div>
-                    <div class="relative pb-4">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-gray-900 border-2 border-gray-900"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">19:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Abendessen</h3>
-                        <p class="text-gray-500 text-sm mt-1">Restaurant Bella Vista</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mittwoch -->
-            <div id="mittwoch" class="day-content hidden">
-                <div class="flex items-center gap-4 mb-10">
-                    <div class="flex-shrink-0 w-16 h-16 bg-gray-100 rounded-2xl flex flex-col items-center justify-center">
-                        <span class="text-xs font-medium text-gray-400 uppercase leading-none">Mi</span>
-                        <span class="text-xl font-bold text-gray-900 leading-none mt-0.5">30</span>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Mittwoch – Tag 2</h2>
-                        <p class="text-gray-400 text-sm">30. Juni 2026 · Meeting Day</p>
-                    </div>
-                </div>
-                <div class="space-y-0 ml-8 border-l-2 border-gray-100 pl-8">
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-900"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">09:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Competitive Analysis</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Vormittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Trends and Developments – Paper</h3>
-                        <p class="text-gray-500 text-sm mt-1">Guest Speaker</p>
-                        <!-- Speaker Card -->
-                        <div class="mt-4 flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                            <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm font-medium">TBD</div>
-                            <div>
-                                <p class="font-medium text-gray-900 text-sm">Speaker wird noch bekannt gegeben</p>
-                                <p class="text-xs text-gray-400">Externer Gastredner</p>
-                            </div>
+            @foreach($days as $day)
+                <div id="day-{{ $day->id }}" class="day-content {{ $loop->first ? '' : 'hidden' }}">
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gray-100 rounded-2xl flex flex-col items-center justify-center">
+                            <span class="text-xs font-medium text-gray-400 uppercase leading-none">{{ $day->date->locale('de')->shortDayName }}</span>
+                            <span class="text-xl font-bold text-gray-900 leading-none mt-0.5">{{ $day->date->format('d') }}</span>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">{{ $day->title }}</h2>
+                            @if($day->subtitle)
+                                <p class="text-gray-400 text-sm">{{ $day->subtitle }}</p>
+                            @endif
                         </div>
                     </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Vormittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Trends and Developments – Glue</h3>
-                        <p class="text-gray-500 text-sm mt-1">Guest Speaker</p>
-                        <div class="mt-4 flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                            <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm font-medium">TBD</div>
-                            <div>
-                                <p class="font-medium text-gray-900 text-sm">Speaker wird noch bekannt gegeben</p>
-                                <p class="text-xs text-gray-400">Externer Gastredner</p>
-                            </div>
+                    @if($day->items->count())
+                        <div class="space-y-0 ml-8 border-l-2 border-gray-100 pl-8">
+                            @foreach($day->items as $item)
+                                <div class="relative {{ $loop->last ? 'pb-4' : 'pb-10' }}">
+                                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
+                                    @if($item->overline)
+                                        <p class="text-sm font-medium text-gray-400 mb-1">{{ $item->overline }}</p>
+                                    @endif
+                                    <h3 class="text-lg font-semibold text-gray-900">{{ $item->title }}</h3>
+                                    @if($item->description)
+                                        <p class="text-gray-500 text-sm mt-1">{{ $item->description }}</p>
+                                    @endif
+                                </div>
+                            @endforeach
                         </div>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-gray-200 border-2 border-gray-200"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">12:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-500">Lunch</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">13:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Service Report</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Nachmittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">SMP / SRAP LAG</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Nachmittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Lacing with improved hooks</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Nachmittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Belt cleaning insights</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">Nachmittag</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Outlook: New Bottom Belt and digital printing</h3>
-                    </div>
-                    <div class="relative pb-4">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-gray-900 border-2 border-gray-900"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">19:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Abendessen</h3>
-                        <p class="text-gray-500 text-sm mt-1">Hotel Lago</p>
-                    </div>
+                    @endif
                 </div>
-            </div>
-
-            <!-- Donnerstag -->
-            <div id="donnerstag" class="day-content hidden">
-                <div class="flex items-center gap-4 mb-10">
-                    <div class="flex-shrink-0 w-16 h-16 bg-gray-100 rounded-2xl flex flex-col items-center justify-center">
-                        <span class="text-xs font-medium text-gray-400 uppercase leading-none">Do</span>
-                        <span class="text-xl font-bold text-gray-900 leading-none mt-0.5">01</span>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Donnerstag – Abreisetag</h2>
-                        <p class="text-gray-400 text-sm">01. Juli 2026 · Optional Day</p>
-                    </div>
-                </div>
-                <div class="space-y-0 ml-8 border-l-2 border-gray-100 pl-8">
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">ab 08:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Check-out</h3>
-                    </div>
-                    <div class="relative pb-10">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">10:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Optionale Betriebsbesichtigung</h3>
-                        <p class="text-gray-500 text-sm mt-1">Mühlen Sohn – Bustransfer hin und zurück</p>
-                        <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 text-xs font-medium rounded-full">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            Optional – Anmeldung erforderlich
-                        </div>
-                    </div>
-                    <div class="relative pb-4">
-                        <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
-                        <p class="text-sm font-medium text-gray-400 mb-1">12:00 Uhr</p>
-                        <h3 class="text-lg font-semibold text-gray-900">Lunch bei Mühlen Sohn</h3>
-                    </div>
-                </div>
-            </div>
+            @endforeach
 
             <!-- Partnerprogramm -->
             <div id="partner" class="day-content hidden">
