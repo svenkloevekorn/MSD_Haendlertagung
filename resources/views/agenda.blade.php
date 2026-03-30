@@ -89,7 +89,7 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex gap-1 overflow-x-auto" id="day-tabs">
                 @foreach($days as $day)
-                    <button data-day="day-{{ $day->id }}" class="day-tab px-5 py-4 text-sm font-medium {{ $loop->first ? 'text-gray-900 border-b-2 border-gray-900' : 'text-gray-400 border-b-2 border-transparent hover:text-gray-600' }} whitespace-nowrap">
+                    <button data-day="day-{{ $day->id }}" class="day-tab px-5 py-4 text-sm font-medium {{ $loop->first ? 'text-gray-900 border-b-2 border-brand-green' : 'text-gray-400 border-b-2 border-transparent hover:text-gray-600' }} whitespace-nowrap">
                         {{ $day->tab_label }}
                     </button>
                 @endforeach
@@ -233,12 +233,12 @@
             tab.addEventListener('click', function() {
                 // Reset all tabs
                 document.querySelectorAll('.day-tab').forEach(t => {
-                    t.classList.remove('text-gray-900', 'border-gray-900');
+                    t.classList.remove('text-gray-900', 'border-brand-green');
                     t.classList.add('text-gray-400', 'border-transparent');
                 });
                 // Activate clicked tab
                 this.classList.remove('text-gray-400', 'border-transparent');
-                this.classList.add('text-gray-900', 'border-gray-900');
+                this.classList.add('text-gray-900', 'border-brand-green');
                 // Hide all content
                 document.querySelectorAll('.day-content').forEach(c => c.classList.add('hidden'));
                 // Show selected content

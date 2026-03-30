@@ -78,7 +78,7 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="relative pt-32 pb-20 md:pt-44 md:pb-32 bg-cover bg-center" style="background-image: url('{{ asset('assets/images/bg.jpeg') }}');">
+<section class="relative pt-40 pb-28 md:pt-52 md:pb-40 bg-cover bg-center" style="background-image: url('{{ asset('assets/images/bg.jpeg') }}');">
     <div class="absolute inset-0 mix-blend-multiply" style="background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.4));"></div>
     <div class="relative max-w-6xl mx-auto px-6">
         <div class="max-w-3xl">
