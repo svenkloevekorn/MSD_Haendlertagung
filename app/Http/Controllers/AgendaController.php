@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgendaDay;
+use App\Models\Speaker;
 use Illuminate\View\View;
 
 class AgendaController extends Controller
@@ -13,6 +14,10 @@ class AgendaController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return view('agenda', compact('days'));
+        $speakers = Speaker::live()
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('agenda', compact('days', 'speakers'));
     }
 }

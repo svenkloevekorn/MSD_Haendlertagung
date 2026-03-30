@@ -164,44 +164,32 @@
         </div>
     </section>
 
-    <!-- Speaker Übersicht -->
-    <section class="py-20 bg-gray-50">
-        <div class="max-w-6xl mx-auto px-6">
-            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Speaker</h2>
-            <p class="text-gray-500 mb-12">Our external guest speakers at the International Sales Meeting 2026.</p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Speaker Placeholder Cards -->
-                <div class="bg-white rounded-2xl p-6 text-center">
-                    <div class="w-20 h-20 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    </div>
-                    <h3 class="font-semibold text-gray-900">To be announced</h3>
-                    <p class="text-sm text-gray-400 mt-1">Guest Speaker – Paper</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 text-center">
-                    <div class="w-20 h-20 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    </div>
-                    <h3 class="font-semibold text-gray-900">To be announced</h3>
-                    <p class="text-sm text-gray-400 mt-1">Guest Speaker – Glue</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 text-center">
-                    <div class="w-20 h-20 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    </div>
-                    <h3 class="font-semibold text-gray-900">To be announced</h3>
-                    <p class="text-sm text-gray-400 mt-1">Guest Speaker</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 text-center">
-                    <div class="w-20 h-20 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    </div>
-                    <h3 class="font-semibold text-gray-900">To be announced</h3>
-                    <p class="text-sm text-gray-400 mt-1">Guest Speaker</p>
+    <!-- Speaker Section -->
+    @if($speakers->count())
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Speaker</h2>
+                <p class="text-gray-500 mb-12">Our external guest speakers at the International Sales Meeting 2026.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach($speakers as $speaker)
+                        <div class="bg-white rounded-2xl p-6 text-center">
+                            @if($speaker->image_path)
+                                <img src="{{ route('speakers.image', $speaker) }}" alt="{{ $speaker->name }}" class="w-20 h-20 rounded-full mx-auto mb-4 object-cover">
+                            @else
+                                <div class="w-20 h-20 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                </div>
+                            @endif
+                            <h3 class="font-semibold text-gray-900">{{ $speaker->name }}</h3>
+                            @if($speaker->subtitle)
+                                <p class="text-sm text-gray-400 mt-1">{{ $speaker->subtitle }}</p>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     <!-- Footer -->
     <footer class="py-12 bg-gray-900 text-gray-400">
