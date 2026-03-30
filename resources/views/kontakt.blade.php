@@ -55,98 +55,45 @@
         </div>
     </section>
 
-    <!-- Ansprechpartner -->
+    <!-- Contact Persons -->
+    @if($contacts->count())
     <section class="py-16 bg-white">
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-2xl font-bold text-gray-900 mb-8">Contact Persons</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Person 1 -->
+                @foreach($contacts as $contact)
                 <div class="p-6 bg-gray-50 rounded-2xl">
-                    <div class="w-16 h-16 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-                        <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    </div>
-                    <h3 class="font-semibold text-gray-900">Contact Person 1</h3>
-                    <p class="text-sm text-gray-400 mt-1">Position / Department</p>
+                    @if($contact->image_path)
+                        <img src="{{ route('kontakt.image', $contact) }}" alt="{{ $contact->name }}" class="w-16 h-16 rounded-full mb-4 object-cover">
+                    @else
+                        <div class="w-16 h-16 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
+                            <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        </div>
+                    @endif
+                    <h3 class="font-semibold text-gray-900">{{ $contact->name }}</h3>
+                    @if($contact->position)
+                        <p class="text-sm text-gray-400 mt-1">{{ $contact->position }}</p>
+                    @endif
                     <div class="mt-4 space-y-2">
-                        <a href="mailto:info@muehlen-sohn.de" class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition">
+                        @if($contact->email)
+                        <a href="mailto:{{ $contact->email }}" class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            info@muehlen-sohn.de
+                            {{ $contact->email }}
                         </a>
-                        <a href="tel:+49000000" class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition">
+                        @endif
+                        @if($contact->phone)
+                        <a href="tel:{{ $contact->phone_link ?? $contact->phone }}" class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                            +49 (0) 000 000
+                            {{ $contact->phone }}
                         </a>
+                        @endif
                     </div>
                 </div>
-                <!-- Person 2 -->
-                <div class="p-6 bg-gray-50 rounded-2xl">
-                    <div class="w-16 h-16 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-                        <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    </div>
-                    <h3 class="font-semibold text-gray-900">Contact Person 2</h3>
-                    <p class="text-sm text-gray-400 mt-1">Position / Department</p>
-                    <div class="mt-4 space-y-2">
-                        <a href="mailto:info@muehlen-sohn.de" class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            info@muehlen-sohn.de
-                        </a>
-                        <a href="tel:+49000000" class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                            +49 (0) 000 000
-                        </a>
-                    </div>
-                </div>
-                <!-- Person 3 -->
-                <div class="p-6 bg-gray-50 rounded-2xl">
-                    <div class="w-16 h-16 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
-                        <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    </div>
-                    <h3 class="font-semibold text-gray-900">Contact Person 3</h3>
-                    <p class="text-sm text-gray-400 mt-1">Position / Department</p>
-                    <div class="mt-4 space-y-2">
-                        <a href="mailto:info@muehlen-sohn.de" class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            info@muehlen-sohn.de
-                        </a>
-                        <a href="tel:+49000000" class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                            +49 (0) 000 000
-                        </a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
-
-    <!-- Kontaktformular -->
-    <section class="py-16 bg-gray-50">
-        <div class="max-w-2xl mx-auto px-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-8">Send a Message</h2>
-            <form class="space-y-5">
-                <div class="grid md:grid-cols-2 gap-5">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Name *</label>
-                        <input type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition bg-white">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Email *</label>
-                        <input type="email" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition bg-white">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Subject</label>
-                    <input type="text" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition bg-white">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Message *</label>
-                    <textarea rows="5" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition bg-white"></textarea>
-                </div>
-                <button type="submit" class="w-full py-3.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition text-sm">
-                    Send Message
-                </button>
-            </form>
-        </div>
-    </section>
+    @endif
 
     <!-- Footer -->
     <footer class="py-12 bg-gray-900 text-gray-400">
