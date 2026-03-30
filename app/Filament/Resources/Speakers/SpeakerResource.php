@@ -20,6 +20,10 @@ class SpeakerResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMicrophone;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 5;
+
     protected static ?string $navigationLabel = 'Speaker';
 
     protected static ?string $modelLabel = 'Speaker';

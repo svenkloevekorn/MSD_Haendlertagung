@@ -21,6 +21,10 @@ class AgendaDayResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $navigationLabel = 'Agenda';
 
     protected static ?string $modelLabel = 'Agenda-Tag';

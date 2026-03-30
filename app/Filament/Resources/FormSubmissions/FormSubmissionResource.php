@@ -17,6 +17,10 @@ class FormSubmissionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInboxStack;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Settings';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $navigationLabel = 'Submissions';
 
     protected static ?string $modelLabel = 'Submission';

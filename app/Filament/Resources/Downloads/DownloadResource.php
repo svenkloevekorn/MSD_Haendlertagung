@@ -20,6 +20,10 @@ class DownloadResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowDownTray;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $navigationLabel = 'Downloads';
 
     protected static ?string $modelLabel = 'Download';

@@ -17,11 +17,13 @@ class SiteSettings extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
 
-    protected static ?string $navigationLabel = 'Settings';
+    protected static string|\UnitEnum|null $navigationGroup = 'Settings';
+
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $navigationLabel = 'Site Settings';
 
     protected static ?string $title = 'Site Settings';
-
-    protected static ?int $navigationSort = 99;
 
     protected string $view = 'filament.pages.site-settings';
 
