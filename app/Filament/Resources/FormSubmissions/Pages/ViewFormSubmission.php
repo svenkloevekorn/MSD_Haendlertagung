@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Filament\Resources\FormSubmissions\Pages;
+
+use App\Filament\Resources\FormSubmissions\FormSubmissionResource;
+use App\Models\FormSubmission;
+use Filament\Actions\DeleteAction;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Resources\Pages\ViewRecord;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+
+class ViewFormSubmission extends ViewRecord
+{
+    protected static string $resource = FormSubmissionResource::class;
+
+    private static array $fieldLabels = [
+        'first_name' => 'First Name',
+        'last_name' => 'Last Name',
+        'email' => 'Email',
+        'mobile' => 'Mobile Number',
+        'company' => 'Company',
+        'has_companion' => 'Has Companion',
+        'companion_first_name' => 'Companion First Name',
+        'companion_last_name' => 'Companion Last Name',
+        'allergies' => 'Allergies / Intolerances',
+        'factory_tour' => 'Factory Tour',
+        'whatsapp' => 'WhatsApp Group',
+        'comments' => 'Comments',
+        'name' => 'Name',
+        'subject' => 'Subject',
+        'message' => 'Message',
+        'rating' => 'Rating',
+        'liked' => 'What they liked',
+        'improve' => 'What to improve',
+        'topics' => 'Suggested Topics',
+        'additional_comments' => 'Additional Comments',
+    ];
+
+    public function infolist(Schema $schema): Schema
+    {
+        $record = $this->record;
+        $data = $record->data ?? [];
+
+        $entries = [
+            TextEntry::make('form_slug')
+                ->label('Form')
+                ->formatStateUsing(fn (string $state): string => FormSubmission::$formLabels[$state] ?? $state),
+            TextEntry::make('created_at')
+                ->label('Submitted')
+                ->dateTime('d.m.Y H:i'),
+        ];
+
+        $fieldEntries = [];
+        foreach ($data as $key => $value) {
+            $label = self::$fieldLabels[$key] ?? ucfirst(str_replace('_', ' ', $key));
+
+            if (is_bool($value)) {
+                $displayValue = $value ? 'Yes' : 'No';
+            } else {
+                $displayValue = $value ?: '-';
+            }
+
+            $fieldEntries[] = TextEntry::make("data.{$key}")
+                ->label($label)
+                ->getStateUsing(fn () => $displayValue);
+        }
+
+        return $schema
+            ->components([
+                Section::make('Submission')
+                    ->columns(2)
+                    ->schema($entries),
+                Section::make('Form Data')
+                    ->columns(2)
+                    ->schema($fieldEntries),
+            ]);
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            DeleteAction::make(),
+        ];
+    }
+}

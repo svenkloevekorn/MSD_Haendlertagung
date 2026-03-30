@@ -58,85 +58,105 @@
     <!-- Formular -->
     <section class="py-16 bg-white">
         <div class="max-w-2xl mx-auto px-6">
-            <form class="space-y-8">
-                <!-- Persönliche Daten -->
+            @if(session('success'))
+                <div class="mb-8 p-6 bg-brand-green/10 border border-brand-green/20 rounded-xl">
+                    <div class="flex gap-3">
+                        <svg class="w-5 h-5 text-brand-green mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <p class="text-gray-700">{{ session('success') }}</p>
+                    </div>
+                </div>
+            @else
+            <form method="POST" action="{{ route('formular.submit') }}" class="space-y-8">
+                @csrf
+
+                @if($errors->any())
+                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <ul class="text-sm text-red-600 space-y-1">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <!-- Personal Details -->
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Personal Details</h2>
                     <div class="grid md:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">First Name *</label>
-                            <input type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            <input type="text" name="first_name" value="{{ old('first_name') }}" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">Last Name *</label>
-                            <input type="text" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            <input type="text" name="last_name" value="{{ old('last_name') }}" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">Email *</label>
-                            <input type="email" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            <input type="email" name="email" value="{{ old('email') }}" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">Mobile Number *</label>
-                            <input type="tel" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 ...">
+                            <input type="tel" name="mobile" value="{{ old('mobile') }}" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 ...">
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">Company</label>
-                            <input type="text" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            <input type="text" name="company" value="{{ old('company') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
                         </div>
                     </div>
                 </div>
 
-                <!-- Begleitperson -->
+                <!-- Accompanying Person -->
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Accompanying Person</h2>
                     <div class="space-y-5">
                         <div class="flex items-center gap-3">
-                            <input type="checkbox" id="partner-check" class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
+                            <input type="checkbox" name="has_companion" id="partner-check" value="1" {{ old('has_companion') ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
                             <label for="partner-check" class="text-sm text-gray-700">I am bringing an accompanying person</label>
                         </div>
                         <div class="grid md:grid-cols-2 gap-5">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1.5">First Name (Companion)</label>
-                                <input type="text" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                                <input type="text" name="companion_first_name" value="{{ old('companion_first_name') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1.5">Last Name (Companion)</label>
-                                <input type="text" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                                <input type="text" name="companion_last_name" value="{{ old('companion_last_name') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Verpflegung -->
+                <!-- Catering -->
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Catering</h2>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">Intolerances / Allergies</label>
-                        <textarea rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="e.g. lactose intolerance, nut allergy, vegetarian ..."></textarea>
+                        <textarea name="allergies" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="e.g. lactose intolerance, nut allergy, vegetarian ...">{{ old('allergies') }}</textarea>
                     </div>
                 </div>
 
-                <!-- Optionale Teilnahme -->
+                <!-- Optional Participation -->
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Optional Participation</h2>
                     <div class="space-y-3">
                         <div class="flex items-center gap-3">
-                            <input type="checkbox" id="factory-tour" class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
+                            <input type="checkbox" name="factory_tour" id="factory-tour" value="1" {{ old('factory_tour') ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
                             <label for="factory-tour" class="text-sm text-gray-700">Factory tour on Thursday (incl. bus transfer)</label>
                         </div>
                         <div class="flex items-center gap-3">
-                            <input type="checkbox" id="whatsapp" class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
+                            <input type="checkbox" name="whatsapp" id="whatsapp" value="1" {{ old('whatsapp') ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
                             <label for="whatsapp" class="text-sm text-gray-700">Join the WhatsApp group</label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Anmerkungen -->
+                <!-- Other -->
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Other</h2>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">Comments</label>
-                        <textarea rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="Any other notes or requests ..."></textarea>
+                        <textarea name="comments" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="Any other notes or requests ...">{{ old('comments') }}</textarea>
                     </div>
                 </div>
 
@@ -144,6 +164,7 @@
                     Submit Registration
                 </button>
             </form>
+            @endif
         </div>
     </section>
 

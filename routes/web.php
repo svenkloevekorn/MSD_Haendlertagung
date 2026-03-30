@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgendaController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\GalleryController;
@@ -21,7 +22,8 @@ Route::middleware('pin')->group(function () {
     Route::get('/downloads', [DownloadController::class, 'index'])->name('downloads');
     Route::get('/downloads/{download}/file', [DownloadController::class, 'file'])->name('downloads.file');
     Route::get('/speakers/{speaker}/image', [SpeakerController::class, 'image'])->name('speakers.image');
-    Route::get('/formular', fn () => view('formular'))->name('formular');
+    Route::get('/formular', [RegistrationController::class, 'show'])->name('formular');
+    Route::post('/formular', [RegistrationController::class, 'submit'])->name('formular.submit');
     Route::get('/feedback', fn () => view('feedback'))->name('feedback');
     Route::get('/kontakt', fn () => view('kontakt'))->name('kontakt');
 });
