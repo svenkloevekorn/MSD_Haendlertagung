@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login – Händlertagung 2026 | Mühlen Sohn</title>
+    <title>Login – International Sales Meeting 2026 | Mühlen Sohn</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -24,10 +24,10 @@
             <!-- Logo -->
             <div class="absolute top-[15%] left-1/2 -translate-x-1/2 text-center">
                 <img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn" class="h-[5rem] mx-auto brightness-0 invert opacity-90 mb-4">
-                <h1 class="text-2xl font-bold text-white mb-2">Händlertagung 2026</h1>
+                <h1 class="text-2xl font-bold text-white mb-2">International Sales Meeting 2026</h1>
             </div>
 
-            <p class="text-sm text-gray-400 text-center mb-4">Bitte geben Sie Ihren Zugangscode ein</p>
+            <p class="text-sm text-gray-400 text-center mb-4">Please enter your access code</p>
 
             <!-- Code Input -->
             <form method="POST" action="{{ route('login.submit') }}" id="pin-form">
@@ -49,13 +49,13 @@
                     </div>
 
                     <button type="submit" id="login-btn" class="w-full py-3.5 bg-green-500/80 hover:bg-green-500 text-white font-medium rounded-xl transition text-sm backdrop-blur-sm">
-                        Anmelden
+                        Log in
                     </button>
                 </div>
             </form>
 
             <p class="text-center text-xs text-gray-500 mt-6">
-                Den Zugangscode finden Sie in Ihrer Einladung.
+                You can find the access code in your invitation.
             </p>
         </div>
     </div>
@@ -249,7 +249,7 @@
                     digits[index + 1].focus();
                 }
                 updateHiddenPin();
-                // Auto-submit wenn alle 6 Felder gefüllt
+                // Auto-submit when all 6 fields are filled
                 if (pinHidden.value.length === 6) {
                     pinForm.submit();
                 }

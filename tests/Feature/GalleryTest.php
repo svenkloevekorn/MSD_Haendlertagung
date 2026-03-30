@@ -105,6 +105,6 @@ class GalleryTest extends TestCase
             ->get('/galerie');
 
         $response->assertStatus(200);
-        $response->assertSee('Bilder werden nach der Veranstaltung');
+        $response->assertSee('Photos will be published here after the event');
     }
 }

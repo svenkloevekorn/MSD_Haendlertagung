@@ -63,7 +63,7 @@ class AgendaTest extends TestCase
             ->get('/agenda');
 
         $response->assertStatus(200);
-        $response->assertSee('Partnerprogramm');
+        $response->assertSee('Partner Programme');
     }
 
     public function test_agenda_page_shows_multiple_days_in_order(): void

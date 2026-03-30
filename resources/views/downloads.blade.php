@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Downloads – Händlertagung 2026 | Mühlen Sohn</title>
+    <title>Downloads – International Sales Meeting 2026 | Mühlen Sohn</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -17,16 +17,16 @@
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             <a href="{{ route('startseite') }}" class="flex items-center gap-3"><img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn" class="h-10"></a>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-                <a href="{{ route('startseite') }}" class="hover:text-gray-900 transition">Startseite</a>
+                <a href="{{ route('startseite') }}" class="hover:text-gray-900 transition">Home</a>
                 <a href="{{ route('agenda') }}" class="hover:text-gray-900 transition">Agenda</a>
-                <a href="{{ route('formular') }}" class="hover:text-gray-900 transition">Anmeldung</a>
-                <a href="{{ route('galerie') }}" class="hover:text-gray-900 transition">Galerie</a>
+                <a href="{{ route('formular') }}" class="hover:text-gray-900 transition">Registration</a>
+                <a href="{{ route('galerie') }}" class="hover:text-gray-900 transition">Gallery</a>
                 <a href="{{ route('downloads') }}" class="text-gray-900">Downloads</a>
                 <a href="{{ route('feedback') }}" class="hover:text-gray-900 transition">Feedback</a>
-                <a href="{{ route('kontakt') }}" class="hover:text-gray-900 transition">Kontakt</a>
+                <a href="{{ route('kontakt') }}" class="hover:text-gray-900 transition">Contact</a>
                 <form method="POST" action="{{ route('logout') }}" class="ml-4">
                     @csrf
-                    <button type="submit" class="text-gray-400 hover:text-red-500 transition" title="Abmelden">
+                    <button type="submit" class="text-gray-400 hover:text-red-500 transition" title="Log out">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                         </svg>
@@ -37,10 +37,10 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
             <div class="px-6 py-4 flex flex-col gap-3 text-sm font-medium text-gray-600">
-                <a href="{{ route('startseite') }}">Startseite</a><a href="{{ route('agenda') }}">Agenda</a><a href="{{ route('formular') }}">Anmeldung</a><a href="{{ route('galerie') }}">Galerie</a><a href="{{ route('downloads') }}" class="text-gray-900">Downloads</a><a href="{{ route('feedback') }}">Feedback</a><a href="{{ route('kontakt') }}">Kontakt</a>
+                <a href="{{ route('startseite') }}">Home</a><a href="{{ route('agenda') }}">Agenda</a><a href="{{ route('formular') }}">Registration</a><a href="{{ route('galerie') }}">Gallery</a><a href="{{ route('downloads') }}" class="text-gray-900">Downloads</a><a href="{{ route('feedback') }}">Feedback</a><a href="{{ route('kontakt') }}">Contact</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="text-red-500 hover:text-red-600">Abmelden</button>
+                    <button type="submit" class="text-red-500 hover:text-red-600">Log out</button>
                 </form>
             </div>
         </div>
@@ -49,9 +49,9 @@
     <!-- Header -->
     <section class="pt-32 pb-16 md:pt-40 md:pb-20 bg-gradient-to-br from-gray-50 to-white">
         <div class="max-w-6xl mx-auto px-6">
-            <p class="text-sm font-semibold uppercase tracking-widest text-gray-400 mb-4">Materialien</p>
+            <p class="text-sm font-semibold uppercase tracking-widest text-gray-400 mb-4">Materials</p>
             <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Downloads</h1>
-            <p class="text-lg text-gray-500 max-w-2xl">Präsentationen und Unterlagen der Händlertagung 2026.</p>
+            <p class="text-lg text-gray-500 max-w-2xl">Presentations and documents from the International Sales Meeting 2026.</p>
         </div>
     </section>
 
@@ -111,7 +111,7 @@
                 <div class="text-center py-12">
                     <div class="inline-flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-xl">
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <p class="text-sm text-gray-500">Downloads werden nach der Veranstaltung freigeschaltet.</p>
+                        <p class="text-sm text-gray-500">Downloads will be available after the event.</p>
                     </div>
                 </div>
             @endif
@@ -122,10 +122,10 @@
     <footer class="py-12 bg-gray-900 text-gray-400">
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-3"><img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn" class="h-8 brightness-0 invert opacity-60"><span class="text-sm">Händlertagung 2026</span></div>
-                <div class="flex flex-wrap gap-6 text-sm"><a href="{{ route('kontakt') }}" class="hover:text-white transition">Kontakt</a><a href="https://www.muehlen-sohn.de" target="_blank" class="hover:text-white transition">muehlen-sohn.de</a></div>
+                <div class="flex items-center gap-3"><img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn" class="h-8 brightness-0 invert opacity-60"><span class="text-sm">International Sales Meeting 2026</span></div>
+                <div class="flex flex-wrap gap-6 text-sm"><a href="{{ route('kontakt') }}" class="hover:text-white transition">Contact</a><a href="https://www.muehlen-sohn.de" target="_blank" class="hover:text-white transition">muehlen-sohn.de</a></div>
             </div>
-            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-xs text-gray-500">&copy; 2026 Mühlen Sohn. Alle Rechte vorbehalten.</div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-xs text-gray-500">&copy; 2026 Mühlen Sohn. All rights reserved.</div>
         </div>
     </footer>
 

@@ -4,7 +4,6 @@
 
 - [ ] Farben/Corporate Design einpflegen (Mühlen Sohn Grün #0EA039, Grau #565656)
 - [ ] Hotelinformationen und Kontaktdaten ergänzen
-- [ ] Finale Agenda mit exakten Uhrzeiten
 - [ ] Speaker-Informationen (Name, Position, Beschreibung, Foto)
 - [ ] Dresscode-Details ergänzen
 - [ ] Formularfelder finalisieren
@@ -40,3 +39,4 @@
 - [x] Galerie-Verwaltung (Upload, Status, Lightbox, geschuetzt)
 - [x] Deploy-Workflow fuer Laravel (rsync, composer, migrate, auto-deploy auf main)
 - [x] Mittwald Staging: haendlertagung-staging.beqn.io
+- [x] Agenda pflegbar ueber Filament Admin (Tage + Programmpunkte dynamisch aus DB)

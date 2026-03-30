@@ -14,7 +14,7 @@ class PinLoginTest extends TestCase
     {
         $response = $this->get('/');
         $response->assertStatus(200);
-        $response->assertSee('Zugangscode');
+        $response->assertSee('access code');
     }
 
     public function test_valid_pin_redirects_to_startseite(): void
