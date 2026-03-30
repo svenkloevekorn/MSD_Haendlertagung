@@ -23,7 +23,6 @@ class FormSubmissionsTable
                     ->color(fn (string $state): string => match ($state) {
                         'registration' => 'success',
                         'feedback' => 'info',
-                        'contact' => 'warning',
                         default => 'gray',
                     })
                     ->sortable(),

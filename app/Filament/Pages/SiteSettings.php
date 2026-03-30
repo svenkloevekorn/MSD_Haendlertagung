@@ -2,7 +2,6 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\FormSubmission;
 use App\Models\Setting;
 use BackedEnum;
 use Filament\Forms\Components\Textarea;
@@ -36,7 +35,6 @@ class SiteSettings extends Page
             'mail_from_address' => Setting::get('mail_from_address', 'info@muehlen-sohn.de'),
             'confirmation_registration' => Setting::get('confirmation_registration', 'Thank you for your registration! We look forward to seeing you.'),
             'confirmation_feedback' => Setting::get('confirmation_feedback', 'Thank you for your feedback! Your input helps us improve.'),
-            'confirmation_contact' => Setting::get('confirmation_contact', 'Thank you for your message! We will get back to you shortly.'),
         ]);
     }
 
@@ -65,9 +63,6 @@ class SiteSettings extends Page
                             ->rows(2),
                         Textarea::make('confirmation_feedback')
                             ->label('Feedback')
-                            ->rows(2),
-                        Textarea::make('confirmation_contact')
-                            ->label('Contact')
                             ->rows(2),
                     ]),
             ]);

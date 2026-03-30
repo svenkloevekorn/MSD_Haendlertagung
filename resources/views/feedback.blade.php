@@ -55,61 +55,81 @@
         </div>
     </section>
 
-    <!-- Feedback Formular -->
+    <!-- Feedback Form -->
     <section class="py-16 bg-white">
         <div class="max-w-2xl mx-auto px-6">
-            <form class="space-y-8">
-                <!-- Gesamteindruck -->
+            @if(session('success'))
+                <div class="mb-8 p-6 bg-brand-green/10 border border-brand-green/20 rounded-xl">
+                    <div class="flex gap-3">
+                        <svg class="w-5 h-5 text-brand-green mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <p class="text-gray-700">{{ session('success') }}</p>
+                    </div>
+                </div>
+            @else
+            <form method="POST" action="{{ route('feedback.submit') }}" class="space-y-8">
+                @csrf
+
+                @if($errors->any())
+                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <ul class="text-sm text-red-600 space-y-1">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <!-- Overall Impression -->
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Overall Impression</h2>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-3">How would you rate the event overall?</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">How would you rate the event overall? *</label>
                         <div class="flex gap-3">
                             <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="rating" value="5" class="sr-only peer">
+                                <input type="radio" name="rating" value="5" {{ old('rating') == '5' ? 'checked' : '' }} class="sr-only peer">
                                 <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">Excellent</div>
                             </label>
                             <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="rating" value="4" class="sr-only peer">
+                                <input type="radio" name="rating" value="4" {{ old('rating') == '4' ? 'checked' : '' }} class="sr-only peer">
                                 <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">Good</div>
                             </label>
                             <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="rating" value="3" class="sr-only peer">
+                                <input type="radio" name="rating" value="3" {{ old('rating') == '3' ? 'checked' : '' }} class="sr-only peer">
                                 <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">OK</div>
                             </label>
                             <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="rating" value="2" class="sr-only peer">
+                                <input type="radio" name="rating" value="2" {{ old('rating') == '2' ? 'checked' : '' }} class="sr-only peer">
                                 <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">Fair</div>
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Details -->
+                <!-- In Detail -->
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">In Detail</h2>
                     <div class="space-y-5">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">What did you particularly enjoy?</label>
-                            <textarea rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"></textarea>
+                            <textarea name="liked" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">{{ old('liked') }}</textarea>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">What can we improve?</label>
-                            <textarea rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"></textarea>
+                            <textarea name="improve" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">{{ old('improve') }}</textarea>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">What topics would you like to see at the next meeting?</label>
-                            <textarea rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"></textarea>
+                            <textarea name="topics" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">{{ old('topics') }}</textarea>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sonstiges -->
+                <!-- Other -->
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Other</h2>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">Additional Comments</label>
-                        <textarea rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"></textarea>
+                        <textarea name="additional_comments" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">{{ old('additional_comments') }}</textarea>
                     </div>
                 </div>
 
@@ -117,6 +137,7 @@
                     Submit Feedback
                 </button>
             </form>
+            @endif
         </div>
     </section>
 
