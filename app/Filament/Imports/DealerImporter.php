@@ -6,6 +6,7 @@ use App\Models\Dealer;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Number;
 
 class DealerImporter extends Importer
@@ -53,14 +54,27 @@ class DealerImporter extends Importer
 
             $this->record->pin = $pin;
         }
+
+        // Convert empty strings to null for nullable fields
+        foreach (['salutation', 'country'] as $field) {
+            if ($this->record->$field === '') {
+                $this->record->$field = null;
+            }
+        }
+
+        Log::info('DealerImport: saving', [
+            'email' => $this->record->email,
+            'pin' => $this->record->pin,
+            'is_new' => ! $this->record->exists,
+        ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = Number::format($import->successful_rows) . ' Haendler erfolgreich importiert/aktualisiert.';
+        $body = Number::format($import->successful_rows) . ' dealers imported/updated.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' ' . Number::format($failedRowsCount) . ' fehlgeschlagen.';
+            $body .= ' ' . Number::format($failedRowsCount) . ' failed.';
         }
 
         return $body;
