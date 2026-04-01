@@ -10,6 +10,8 @@ use Illuminate\View\View;
 
 class FeedbackController extends Controller
 {
+    private const CATEGORIES = ['accommodation', 'catering', 'program', 'presentations', 'organisation', 'further'];
+
     public function show(): View
     {
         return view('feedback');
@@ -17,23 +19,39 @@ class FeedbackController extends Controller
 
     public function submit(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'rating' => 'required|in:2,3,4,5',
+        $rules = [
+            'rating' => 'required|in:1,2,3,4',
             'liked' => 'nullable|string|max:2000',
             'improve' => 'nullable|string|max:2000',
             'topics' => 'nullable|string|max:2000',
             'additional_comments' => 'nullable|string|max:2000',
-        ]);
+        ];
+
+        foreach (self::CATEGORIES as $cat) {
+            $rules["rating_{$cat}"] = 'nullable|in:1,2,3,4';
+            $rules["comment_{$cat}"] = 'nullable|string|max:2000';
+        }
+
+        $validated = $request->validate($rules);
+
+        $data = [
+            'rating' => $validated['rating'],
+        ];
+
+        foreach (self::CATEGORIES as $cat) {
+            $data["rating_{$cat}"] = $validated["rating_{$cat}"] ?? '';
+            $data["comment_{$cat}"] = $validated["comment_{$cat}"] ?? '';
+        }
+
+        $data['liked'] = $validated['liked'] ?? '';
+        $data['improve'] = $validated['improve'] ?? '';
+        $data['topics'] = $validated['topics'] ?? '';
+        $data['additional_comments'] = $validated['additional_comments'] ?? '';
 
         FormSubmission::create([
             'form_slug' => FormSubmission::FORM_FEEDBACK,
-            'data' => [
-                'rating' => $validated['rating'],
-                'liked' => $validated['liked'] ?? '',
-                'improve' => $validated['improve'] ?? '',
-                'topics' => $validated['topics'] ?? '',
-                'additional_comments' => $validated['additional_comments'] ?? '',
-            ],
+            'dealer_id' => session('dealer_id'),
+            'data' => $data,
         ]);
 
         $confirmation = Setting::get(

@@ -46,7 +46,7 @@ class FeedbackTest extends TestCase
     {
         $response = $this->withSession($this->authenticatedSession())
             ->post('/feedback', [
-                'rating' => '5',
+                'rating' => '4',
                 'liked' => 'Great networking',
                 'improve' => 'More breaks',
             ]);
@@ -57,7 +57,7 @@ class FeedbackTest extends TestCase
         $this->assertDatabaseCount('form_submissions', 1);
         $submission = FormSubmission::first();
         $this->assertEquals('feedback', $submission->form_slug);
-        $this->assertEquals('5', $submission->data['rating']);
+        $this->assertEquals('4', $submission->data['rating']);
         $this->assertEquals('Great networking', $submission->data['liked']);
     }
 
@@ -75,7 +75,7 @@ class FeedbackTest extends TestCase
         Setting::set('confirmation_feedback', 'Thanks for your feedback!');
         $session = $this->authenticatedSession();
 
-        $this->withSession($session)->post('/feedback', ['rating' => '4']);
+        $this->withSession($session)->post('/feedback', ['rating' => '3']);
 
         $follow = $this->withSession($session)->get('/feedback');
         $follow->assertSee('Thanks for your feedback!');

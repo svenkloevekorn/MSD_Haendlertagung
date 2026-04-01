@@ -26,15 +26,18 @@ class FormSubmissionsTable
                         default => 'gray',
                     })
                     ->sortable(),
-                TextColumn::make('data.first_name')
-                    ->label('First Name')
-                    ->getStateUsing(fn ($record) => $record->data['first_name'] ?? $record->data['name'] ?? '-'),
-                TextColumn::make('data.last_name')
-                    ->label('Last Name')
-                    ->getStateUsing(fn ($record) => $record->data['last_name'] ?? '-'),
-                TextColumn::make('data.email')
-                    ->label('Email')
-                    ->getStateUsing(fn ($record) => $record->data['email'] ?? '-'),
+                TextColumn::make('dealer.first_name')
+                    ->label('Dealer')
+                    ->getStateUsing(fn ($record) => $record->dealer
+                        ? $record->dealer->first_name . ' ' . $record->dealer->last_name
+                        : '-')
+                    ->searchable(query: fn ($query, string $search) => $query->whereHas('dealer', fn ($q) => $q
+                        ->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%")
+                    )),
+                TextColumn::make('dealer.pin')
+                    ->label('PIN')
+                    ->getStateUsing(fn ($record) => $record->dealer?->pin ?? '-'),
                 TextColumn::make('created_at')
                     ->label('Submitted')
                     ->dateTime('d.m.Y H:i')

@@ -49,6 +49,7 @@ class RegistrationController extends Controller
 
         FormSubmission::create([
             'form_slug' => FormSubmission::FORM_REGISTRATION,
+            'dealer_id' => session('dealer_id'),
             'data' => $data,
         ]);
 

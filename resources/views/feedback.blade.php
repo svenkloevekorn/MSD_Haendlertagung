@@ -84,24 +84,44 @@
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Overall Impression</h2>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-3">How would you rate the event overall? *</label>
-                        <div class="flex gap-3">
-                            <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="rating" value="5" {{ old('rating') == '5' ? 'checked' : '' }} class="sr-only peer">
-                                <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">Excellent</div>
-                            </label>
-                            <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="rating" value="4" {{ old('rating') == '4' ? 'checked' : '' }} class="sr-only peer">
-                                <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">Good</div>
-                            </label>
-                            <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="rating" value="3" {{ old('rating') == '3' ? 'checked' : '' }} class="sr-only peer">
-                                <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">OK</div>
-                            </label>
-                            <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="rating" value="2" {{ old('rating') == '2' ? 'checked' : '' }} class="sr-only peer">
-                                <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">Fair</div>
-                            </label>
+                        <input type="hidden" name="rating" id="rating-value" value="{{ old('rating', '') }}">
+                        <div class="flex gap-2" id="star-rating">
+                            @for($i = 1; $i <= 4; $i++)
+                                <button type="button" data-star="{{ $i }}" class="star-btn p-1 transition" aria-label="{{ $i }} stars">
+                                    <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+                                </button>
+                            @endfor
                         </div>
+                    </div>
+                </div>
+
+                <!-- Category Ratings -->
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Rate the Categories</h2>
+                    <div class="space-y-6">
+                        @foreach([
+                            'accommodation' => 'Accommodation',
+                            'catering' => 'Food & Catering',
+                            'program' => 'Program',
+                            'presentations' => 'Presentations',
+                            'organisation' => 'Organisation',
+                            'further' => 'Further',
+                        ] as $key => $label)
+                            <div class="p-4 bg-gray-50 rounded-xl">
+                                <div class="flex items-center justify-between mb-3">
+                                    <label class="text-sm font-medium text-gray-700">{{ $label }}</label>
+                                    <input type="hidden" name="rating_{{ $key }}" class="category-rating-value" data-category="{{ $key }}" value="{{ old('rating_' . $key, '') }}">
+                                    <div class="flex gap-1 category-stars" data-category="{{ $key }}">
+                                        @for($i = 1; $i <= 4; $i++)
+                                            <button type="button" data-star="{{ $i }}" data-category="{{ $key }}" class="cat-star-btn p-0.5 transition" aria-label="{{ $i }} stars">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+                                            </button>
+                                        @endfor
+                                    </div>
+                                </div>
+                                <textarea name="comment_{{ $key }}" rows="2" class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="Comment (optional)">{{ old('comment_' . $key) }}</textarea>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -152,6 +172,82 @@
         </div>
     </footer>
 
-    <script>document.getElementById('menu-toggle').addEventListener('click', function() { document.getElementById('mobile-menu').classList.toggle('hidden'); });</script>
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function() { document.getElementById('mobile-menu').classList.toggle('hidden'); });
+
+        // Star rating
+        const starBtns = document.querySelectorAll('.star-btn');
+        const ratingInput = document.getElementById('rating-value');
+        let currentRating = parseInt(ratingInput?.value) || 0;
+
+        function updateStars(rating) {
+            starBtns.forEach(btn => {
+                const star = parseInt(btn.dataset.star);
+                const svg = btn.querySelector('svg');
+                if (star <= rating) {
+                    svg.setAttribute('fill', '#F59E0B');
+                    svg.setAttribute('stroke', '#F59E0B');
+                } else {
+                    svg.setAttribute('fill', 'none');
+                    svg.setAttribute('stroke', 'currentColor');
+                }
+            });
+        }
+
+        if (starBtns.length) {
+            updateStars(currentRating);
+
+            starBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    currentRating = parseInt(this.dataset.star);
+                    ratingInput.value = currentRating;
+                    updateStars(currentRating);
+                });
+                btn.addEventListener('mouseenter', function() {
+                    updateStars(parseInt(this.dataset.star));
+                });
+                btn.addEventListener('mouseleave', function() {
+                    updateStars(currentRating);
+                });
+            });
+        }
+
+        // Category star ratings
+        const categories = {};
+        document.querySelectorAll('.category-rating-value').forEach(input => {
+            categories[input.dataset.category] = parseInt(input.value) || 0;
+        });
+
+        function updateCategoryStars(category, rating) {
+            document.querySelectorAll(`.cat-star-btn[data-category="${category}"]`).forEach(btn => {
+                const star = parseInt(btn.dataset.star);
+                const svg = btn.querySelector('svg');
+                if (star <= rating) {
+                    svg.setAttribute('fill', '#F59E0B');
+                    svg.setAttribute('stroke', '#F59E0B');
+                } else {
+                    svg.setAttribute('fill', 'none');
+                    svg.setAttribute('stroke', 'currentColor');
+                }
+            });
+        }
+
+        Object.keys(categories).forEach(cat => updateCategoryStars(cat, categories[cat]));
+
+        document.querySelectorAll('.cat-star-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const cat = this.dataset.category;
+                categories[cat] = parseInt(this.dataset.star);
+                document.querySelector(`.category-rating-value[data-category="${cat}"]`).value = categories[cat];
+                updateCategoryStars(cat, categories[cat]);
+            });
+            btn.addEventListener('mouseenter', function() {
+                updateCategoryStars(this.dataset.category, parseInt(this.dataset.star));
+            });
+            btn.addEventListener('mouseleave', function() {
+                updateCategoryStars(this.dataset.category, categories[this.dataset.category]);
+            });
+        });
+    </script>
 </body>
 </html>

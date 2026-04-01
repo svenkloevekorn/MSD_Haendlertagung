@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FormSubmission extends Model
 {
     protected $fillable = [
         'form_slug',
+        'dealer_id',
         'data',
     ];
 
@@ -22,6 +24,11 @@ class FormSubmission extends Model
         self::FORM_REGISTRATION => 'Registration',
         self::FORM_FEEDBACK => 'Feedback',
     ];
+
+    public function dealer(): BelongsTo
+    {
+        return $this->belongsTo(Dealer::class);
+    }
 
     public function getFormLabelAttribute(): string
     {
