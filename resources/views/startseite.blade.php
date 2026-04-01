@@ -140,8 +140,12 @@
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">Hotel</h3>
                 <p class="text-gray-500 leading-relaxed">
-                    Hotel Lago<br>
-                    <span class="text-sm text-gray-400">Check-in: Mo, 28.06. · Check-out: Do, 01.07.</span>
+                    <a href="https://hotel.lago-ulm.de/en/" target="_blank" class="text-gray-700 hover:text-brand-green transition font-medium">LAGO hotel &amp; restaurant on the lake</a><br>
+                    <span class="text-sm text-gray-400">Friedrichsau 50, 89073 Ulm/Danube</span><br>
+                    <span class="text-sm text-gray-400">Phone: <a href="tel:+497312064000" class="hover:text-gray-600 transition">+49 731 2064000</a></span><br>
+                    <span class="text-sm text-gray-400">Email: <a href="mailto:hotel@lago-ulm.de" class="hover:text-gray-600 transition">hotel@lago-ulm.de</a></span><br>
+                    <span class="text-sm text-gray-400 mt-2 inline-block">Check-in: Mon, 29.06.</span><br>
+                    <span class="text-sm text-gray-400">Check-out: Thu, 02.07.</span>
                 </p>
             </div>
             <!-- Karte 3 -->
@@ -200,7 +204,7 @@
         <div class="max-w-3xl">
             <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Dresscode</h2>
             <p class="text-gray-500 leading-relaxed">
-                Business Casual – Details to be added.
+                Dress Code: Smart casual / Shirt without a tie
             </p>
         </div>
     </div>
