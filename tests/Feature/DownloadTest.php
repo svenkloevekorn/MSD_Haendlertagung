@@ -114,6 +114,6 @@ class DownloadTest extends TestCase
             ->get('/downloads');
 
         $response->assertStatus(200);
-        $response->assertSee('Downloads will be available after the event');
+        $response->assertSee('Presentations and documents will be made available here');
     }
 }
