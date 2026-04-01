@@ -12,6 +12,8 @@ class Dealer extends Model
         'first_name',
         'last_name',
         'email',
+        'salutation',
+        'country',
         'pin',
         'last_login_at',
     ];

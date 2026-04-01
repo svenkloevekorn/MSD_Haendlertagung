@@ -23,6 +23,11 @@ class DealerForm
                     ->email()
                     ->required()
                     ->unique(ignoreRecord: true),
+                TextInput::make('salutation')
+                    ->label('Salutation')
+                    ->placeholder('e.g. Mr., Mrs., Dr.'),
+                TextInput::make('country')
+                    ->label('Country'),
                 TextInput::make('pin')
                     ->label('PIN (6-stellig)')
                     ->required()

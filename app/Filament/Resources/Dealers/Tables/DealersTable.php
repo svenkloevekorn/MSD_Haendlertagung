@@ -23,6 +23,9 @@ class DealersTable
                 TextColumn::make('email')
                     ->label('E-Mail')
                     ->searchable(),
+                TextColumn::make('country')
+                    ->label('Country')
+                    ->searchable(),
                 TextColumn::make('last_login_at')
                     ->label('Letzter Login')
                     ->dateTime('d.m.Y H:i')

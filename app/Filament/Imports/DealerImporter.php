@@ -15,29 +15,44 @@ class DealerImporter extends Importer
     public static function getColumns(): array
     {
         return [
+            ImportColumn::make('salutation')
+                ->label('Salutation')
+                ->rules(['nullable', 'string']),
             ImportColumn::make('first_name')
-                ->label('Vorname')
+                ->label('First Name')
                 ->requiredMapping()
                 ->rules(['required', 'string']),
             ImportColumn::make('last_name')
-                ->label('Nachname')
+                ->label('Last Name')
                 ->requiredMapping()
                 ->rules(['required', 'string']),
             ImportColumn::make('email')
-                ->label('E-Mail')
+                ->label('Email')
                 ->requiredMapping()
                 ->rules(['required', 'email']),
+            ImportColumn::make('country')
+                ->label('Country')
+                ->rules(['nullable', 'string']),
             ImportColumn::make('pin')
                 ->label('PIN')
-                ->requiredMapping()
-                ->rules(['required', 'string', 'size:6']),
+                ->rules(['nullable', 'string', 'max:6']),
         ];
     }
 
     public function resolveRecord(): ?Dealer
     {
-        // Wenn E-Mail existiert → Update, sonst neu anlegen
         return Dealer::firstOrNew(['email' => $this->data['email']]);
+    }
+
+    public function beforeSave(): void
+    {
+        if (empty($this->record->pin)) {
+            do {
+                $pin = strtoupper(substr(bin2hex(random_bytes(3)), 0, 6));
+            } while (Dealer::where('pin', $pin)->exists());
+
+            $this->record->pin = $pin;
+        }
     }
 
     public static function getCompletedNotificationBody(Import $import): string

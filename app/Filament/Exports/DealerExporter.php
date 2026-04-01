@@ -15,12 +15,14 @@ class DealerExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('first_name')->label('Vorname'),
-            ExportColumn::make('last_name')->label('Nachname'),
-            ExportColumn::make('email')->label('E-Mail'),
+            ExportColumn::make('salutation')->label('Salutation'),
+            ExportColumn::make('first_name')->label('First Name'),
+            ExportColumn::make('last_name')->label('Last Name'),
+            ExportColumn::make('email')->label('Email'),
+            ExportColumn::make('country')->label('Country'),
             ExportColumn::make('pin')->label('PIN'),
-            ExportColumn::make('last_login_at')->label('Letzter Login'),
-            ExportColumn::make('created_at')->label('Erstellt'),
+            ExportColumn::make('last_login_at')->label('Last Login'),
+            ExportColumn::make('created_at')->label('Created'),
         ];
     }
 
