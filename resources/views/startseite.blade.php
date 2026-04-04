@@ -42,6 +42,7 @@
             <a href="{{ route('downloads') }}" class="hover:text-gray-900 transition">Downloads</a>
             <a href="{{ route('feedback') }}" class="hover:text-gray-900 transition">Feedback</a>
             <a href="{{ route('kontakt') }}" class="hover:text-gray-900 transition">Contact</a>
+                @include('partials.todo-badge')
             <form method="POST" action="{{ route('logout') }}" class="ml-4">
                 @csrf
                 <button type="submit" class="text-gray-400 hover:text-red-500 transition" title="Log out">
@@ -165,6 +166,49 @@
                 </p>
             </div>
         </div>
+
+        <!-- Registration Status -->
+        @if(isset($todoItems))
+        <div class="mt-12 p-6 bg-white rounded-2xl border border-gray-200">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Your Registration</h3>
+                @if(count($todoItems) > 0)
+                    <span class="text-xs font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full">{{ count($todoItems) }} open</span>
+                @else
+                    <span class="text-xs font-medium text-brand-green bg-brand-green/10 px-3 py-1 rounded-full">All done</span>
+                @endif
+            </div>
+            <div class="space-y-3">
+                @php
+                    $allItems = [
+                        ['label' => 'Factory Tour', 'deadline' => 'May 1, 2026', 'done' => !collect($todoItems)->contains('label', 'Factory Tour')],
+                        ['label' => 'Intolerances / Allergies', 'deadline' => 'June 1, 2026', 'done' => !collect($todoItems)->contains('label', 'Intolerances / Allergies')],
+                        ['label' => 'Mobile Numbers', 'deadline' => 'June 10, 2026', 'done' => !collect($todoItems)->contains('label', 'Mobile Numbers')],
+                    ];
+                @endphp
+                @foreach($allItems as $item)
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            @if($item['done'])
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <span class="text-sm text-gray-500 line-through">{{ $item['label'] }}</span>
+                            @else
+                                <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                                <span class="text-sm text-gray-700">{{ $item['label'] }}</span>
+                            @endif
+                        </div>
+                        <span class="text-xs {{ $item['done'] ? 'text-gray-400' : 'text-red-500 font-medium' }}">{{ $item['deadline'] }}</span>
+                    </div>
+                @endforeach
+            </div>
+            @if(count($todoItems) > 0)
+                <a href="{{ route('formular') }}" class="mt-5 inline-flex items-center text-sm font-medium text-brand-green hover:text-brand-dark transition">
+                    Complete your registration
+                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </a>
+            @endif
+        </div>
+        @endif
     </div>
 </section>
 
@@ -246,7 +290,6 @@
             <div class="flex items-center gap-3">
                 <img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn"
                      class="h-8 brightness-0 invert opacity-60">
-                <span class="text-sm">International Sales Meeting 2026</span>
             </div>
             <div class="flex flex-wrap gap-6 text-sm">
                 <a href="{{ route('kontakt') }}" class="hover:text-white transition">Contact</a>

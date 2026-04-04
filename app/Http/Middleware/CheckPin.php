@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Dealer;
+use App\Models\FormSubmission;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -28,6 +29,23 @@ class CheckPin
 
         $dealer = Dealer::find($dealerId);
         View::share('dealer', $dealer);
+
+        $saved = FormSubmission::where('form_slug', FormSubmission::FORM_REGISTRATION)
+            ->where('dealer_id', $dealerId)
+            ->first()?->data ?? [];
+
+        $todoItems = [];
+        if (empty($saved['factory_tour'] ?? null)) {
+            $todoItems[] = ['label' => 'Factory Tour', 'deadline' => 'May 1, 2026'];
+        }
+        if (empty($saved['allergies'] ?? null) && ($saved['no_allergies'] ?? '') !== 'true') {
+            $todoItems[] = ['label' => 'Intolerances / Allergies', 'deadline' => 'June 1, 2026'];
+        }
+        $hasCompanionHandled = ($saved['no_companion'] ?? '') === 'true' || ! empty($saved['companion_mobile'] ?? null);
+        if (empty($saved['mobile'] ?? null) || ! $hasCompanionHandled) {
+            $todoItems[] = ['label' => 'Mobile Numbers', 'deadline' => 'June 10, 2026'];
+        }
+        View::share('todoItems', $todoItems);
 
         return $next($request);
     }

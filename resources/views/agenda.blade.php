@@ -41,6 +41,7 @@
                 <a href="{{ route('downloads') }}" class="hover:text-gray-900 transition">Downloads</a>
                 <a href="{{ route('feedback') }}" class="hover:text-gray-900 transition">Feedback</a>
                 <a href="{{ route('kontakt') }}" class="hover:text-gray-900 transition">Contact</a>
+                @include('partials.todo-badge')
                 <form method="POST" action="{{ route('logout') }}" class="ml-4">
                     @csrf
                     <button type="submit" class="text-gray-400 hover:text-red-500 transition" title="Log out">
@@ -197,7 +198,6 @@
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="flex items-center gap-3">
                     <img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn" class="h-8 brightness-0 invert opacity-60">
-                    <span class="text-sm">International Sales Meeting 2026</span>
                 </div>
                 <div class="flex flex-wrap gap-6 text-sm">
                     <a href="{{ route('kontakt') }}" class="hover:text-white transition">Contact</a>

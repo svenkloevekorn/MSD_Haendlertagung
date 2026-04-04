@@ -46,9 +46,6 @@ class RegistrationTest extends TestCase
     {
         $response = $this->withSession($this->authenticatedSession())
             ->post('/formular', [
-                'first_name' => 'John',
-                'last_name' => 'Doe',
-                'email' => 'john@example.com',
                 'mobile' => '+49 123 456',
                 'company' => 'Acme Corp',
             ]);
@@ -59,17 +56,33 @@ class RegistrationTest extends TestCase
         $this->assertDatabaseCount('form_submissions', 1);
         $submission = FormSubmission::first();
         $this->assertEquals('registration', $submission->form_slug);
-        $this->assertEquals('John', $submission->data['first_name']);
-        $this->assertEquals('john@example.com', $submission->data['email']);
+        $this->assertEquals('Max', $submission->data['first_name']);
+        $this->assertEquals('max@test.de', $submission->data['email']);
     }
 
-    public function test_registration_validates_required_fields(): void
+    public function test_registration_updates_existing_submission(): void
     {
-        $response = $this->withSession($this->authenticatedSession())
-            ->post('/formular', []);
+        $session = $this->authenticatedSession();
 
-        $response->assertSessionHasErrors(['first_name', 'last_name', 'email', 'mobile']);
-        $this->assertDatabaseCount('form_submissions', 0);
+        $this->withSession($session)->post('/formular', ['mobile' => '+49 111']);
+        $this->assertDatabaseCount('form_submissions', 1);
+
+        $this->withSession($session)->post('/formular', ['mobile' => '+49 222']);
+        $this->assertDatabaseCount('form_submissions', 1);
+
+        $submission = FormSubmission::first();
+        $this->assertEquals('+49 222', $submission->data['mobile']);
+    }
+
+    public function test_registration_loads_saved_data(): void
+    {
+        $session = $this->authenticatedSession();
+
+        $this->withSession($session)->post('/formular', ['mobile' => '+49 333', 'company' => 'Test Corp']);
+
+        $response = $this->withSession($session)->get('/formular');
+        $response->assertSee('+49 333');
+        $response->assertSee('Test Corp');
     }
 
     public function test_registration_shows_confirmation_from_settings(): void
@@ -80,9 +93,6 @@ class RegistrationTest extends TestCase
 
         $response = $this->withSession($session)
             ->post('/formular', [
-                'first_name' => 'Jane',
-                'last_name' => 'Doe',
-                'email' => 'jane@example.com',
                 'mobile' => '+49 999',
             ]);
 
@@ -98,23 +108,16 @@ class RegistrationTest extends TestCase
     {
         $this->withSession($this->authenticatedSession())
             ->post('/formular', [
-                'first_name' => 'Max',
-                'last_name' => 'Muster',
-                'email' => 'max@muster.de',
                 'mobile' => '+49 111',
-                'has_companion' => '1',
-                'companion_first_name' => 'Anna',
-                'companion_last_name' => 'Muster',
+                'companion_mobile' => '+49 222',
                 'allergies' => 'Nuts',
-                'factory_tour' => '1',
-                'whatsapp' => '1',
+                'factory_tour' => 'yes',
                 'comments' => 'Looking forward!',
             ]);
 
         $submission = FormSubmission::first();
-        $this->assertTrue($submission->data['has_companion']);
-        $this->assertEquals('Anna', $submission->data['companion_first_name']);
-        $this->assertTrue($submission->data['factory_tour']);
+        $this->assertEquals('+49 222', $submission->data['companion_mobile']);
+        $this->assertEquals('yes', $submission->data['factory_tour']);
         $this->assertEquals('Nuts', $submission->data['allergies']);
     }
 }

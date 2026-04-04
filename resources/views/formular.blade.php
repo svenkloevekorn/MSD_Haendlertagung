@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration – International Sales Meeting 2026 | Mühlen Sohn</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { green: '#0EA039', dark: '#565656' } } } } }
@@ -24,6 +25,7 @@
                 <a href="{{ route('downloads') }}" class="hover:text-gray-900 transition">Downloads</a>
                 <a href="{{ route('feedback') }}" class="hover:text-gray-900 transition">Feedback</a>
                 <a href="{{ route('kontakt') }}" class="hover:text-gray-900 transition">Contact</a>
+                @include('partials.todo-badge')
                 <form method="POST" action="{{ route('logout') }}" class="ml-4">
                     @csrf
                     <button type="submit" class="text-gray-400 hover:text-red-500 transition" title="Log out">
@@ -65,7 +67,45 @@
                         <p class="text-gray-700">{{ session('success') }}</p>
                     </div>
                 </div>
-            @else
+            @endif
+
+            <!-- Progress Checklist -->
+            @php
+                $hasCompanionHandled = ($saved['no_companion'] ?? '') === 'true' || ! empty($saved['companion_mobile'] ?? null);
+                $hasPhone = ! empty($saved['mobile'] ?? null) && $hasCompanionHandled;
+                $hasAllergies = ! empty($saved['allergies'] ?? null) || ($saved['no_allergies'] ?? '') === 'true';
+                $hasFactoryTour = ! empty($saved['factory_tour'] ?? null);
+            @endphp
+            <div class="mb-8 p-6 bg-gray-50 rounded-xl border border-gray-200">
+                <h3 class="text-sm font-semibold text-gray-900 mb-4">Registration Progress</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        @if($hasFactoryTour)
+                            <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        @else
+                            <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                        @endif
+                        <span class="text-sm {{ $hasFactoryTour ? 'text-gray-700' : 'text-gray-400' }}">Factory Tour – <strong>Deadline: May 1, 2026</strong></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        @if($hasAllergies)
+                            <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        @else
+                            <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                        @endif
+                        <span class="text-sm {{ $hasAllergies ? 'text-gray-700' : 'text-gray-400' }}">Intolerances / Allergies – <strong>Deadline: June 1, 2026</strong></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        @if($hasPhone)
+                            <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        @else
+                            <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                        @endif
+                        <span class="text-sm {{ $hasPhone ? 'text-gray-700' : 'text-gray-400' }}">Mobile Numbers (you & companion) – <strong>Deadline: June 10, 2026</strong></span>
+                    </div>
+                </div>
+            </div>
+
             <form method="POST" action="{{ route('formular.submit') }}" class="space-y-8">
                 @csrf
 
@@ -79,75 +119,77 @@
                     </div>
                 @endif
 
-                <!-- Personal Details -->
+                <!-- Personal Details (read-only from dealer) -->
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Personal Details</h2>
                     <div class="grid md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1.5">First Name *</label>
-                            <input type="text" name="first_name" value="{{ old('first_name') }}" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
+                            <input type="text" value="{{ $dealer->first_name }}" readonly class="w-full px-4 py-3 border border-gray-100 rounded-lg text-sm bg-gray-50 text-gray-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Last Name *</label>
-                            <input type="text" name="last_name" value="{{ old('last_name') }}" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Last Name</label>
+                            <input type="text" value="{{ $dealer->last_name }}" readonly class="w-full px-4 py-3 border border-gray-100 rounded-lg text-sm bg-gray-50 text-gray-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Email *</label>
-                            <input type="email" name="email" value="{{ old('email') }}" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+                            <input type="text" value="{{ $dealer->email }}" readonly class="w-full px-4 py-3 border border-gray-100 rounded-lg text-sm bg-gray-50 text-gray-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Mobile Number *</label>
-                            <input type="tel" name="mobile" value="{{ old('mobile') }}" required class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 ...">
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Mobile Number</label>
+                            <input type="tel" name="mobile" value="{{ old('mobile', $saved['mobile'] ?? '') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 ...">
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">Company</label>
-                            <input type="text" name="company" value="{{ old('company') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
+                            <input type="text" name="company" value="{{ old('company', $saved['company'] ?? '') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
                         </div>
                     </div>
                 </div>
 
                 <!-- Accompanying Person -->
-                <div>
+                <div x-data="{ noCompanion: {{ old('no_companion', $saved['no_companion'] ?? '') === 'true' ? 'true' : 'false' }} }">
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Accompanying Person</h2>
-                    <div class="space-y-5">
+                    <div class="space-y-4">
                         <div class="flex items-center gap-3">
-                            <input type="checkbox" name="has_companion" id="partner-check" value="1" {{ old('has_companion') ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
-                            <label for="partner-check" class="text-sm text-gray-700">I am bringing an accompanying person</label>
+                            <input type="checkbox" id="no-companion" name="no_companion" value="true" x-model="noCompanion" {{ old('no_companion', $saved['no_companion'] ?? '') === 'true' ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
+                            <label for="no-companion" class="text-sm text-gray-700">I am not bringing an accompanying person</label>
                         </div>
-                        <div class="grid md:grid-cols-2 gap-5">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1.5">First Name (Companion)</label>
-                                <input type="text" name="companion_first_name" value="{{ old('companion_first_name') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Last Name (Companion)</label>
-                                <input type="text" name="companion_last_name" value="{{ old('companion_last_name') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">
-                            </div>
+                        <div x-show="!noCompanion" x-transition>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Mobile Number (Accompanying Person)</label>
+                            <input type="tel" name="companion_mobile" value="{{ old('companion_mobile', $saved['companion_mobile'] ?? '') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 ...">
                         </div>
                     </div>
                 </div>
 
                 <!-- Catering -->
-                <div>
+                <div x-data="{ noAllergies: {{ old('no_allergies', $saved['no_allergies'] ?? '') === 'true' ? 'true' : 'false' }} }">
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Catering</h2>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Intolerances / Allergies</label>
-                        <textarea name="allergies" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="e.g. lactose intolerance, nut allergy, vegetarian ...">{{ old('allergies') }}</textarea>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="no-allergies" name="no_allergies" value="true" x-model="noAllergies" {{ old('no_allergies', $saved['no_allergies'] ?? '') === 'true' ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
+                            <label for="no-allergies" class="text-sm text-gray-700">No intolerances or allergies</label>
+                        </div>
+                        <div x-show="!noAllergies" x-transition>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Intolerances / Allergies</label>
+                            <textarea name="allergies" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="e.g. lactose intolerance, nut allergy, vegetarian ...">{{ old('allergies', $saved['allergies'] ?? '') }}</textarea>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Optional Participation -->
+                <!-- Optional Factory Tour -->
                 <div>
-                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Optional Participation</h2>
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-3">
-                            <input type="checkbox" name="factory_tour" id="factory-tour" value="1" {{ old('factory_tour') ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
-                            <label for="factory-tour" class="text-sm text-gray-700">Factory tour on Thursday (incl. bus transfer)</label>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <input type="checkbox" name="whatsapp" id="whatsapp" value="1" {{ old('whatsapp') ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
-                            <label for="whatsapp" class="text-sm text-gray-700">Join the WhatsApp group</label>
-                        </div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Optional Factory Tour</h2>
+                    <p class="text-sm text-gray-500 mb-4">Thursday, July 2 – Factory tour at Mühlen Sohn (incl. bus transfer)</p>
+                    @php $ft = old('factory_tour', $saved['factory_tour'] ?? ''); @endphp
+                    <div class="flex gap-3">
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="factory_tour" value="yes" {{ $ft == 'yes' ? 'checked' : '' }} class="sr-only peer">
+                            <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">Yes, I would like to participate</div>
+                        </label>
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="factory_tour" value="no" {{ $ft == 'no' ? 'checked' : '' }} class="sr-only peer">
+                            <div class="py-3 text-center border border-gray-200 rounded-lg text-sm text-gray-500 peer-checked:border-gray-900 peer-checked:text-gray-900 peer-checked:bg-gray-50 transition hover:border-gray-300">No, thank you</div>
+                        </label>
                     </div>
                 </div>
 
@@ -156,15 +198,14 @@
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Other</h2>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">Comments</label>
-                        <textarea name="comments" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="Any other notes or requests ...">{{ old('comments') }}</textarea>
+                        <textarea name="comments" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="Any other notes or requests ...">{{ old('comments', $saved['comments'] ?? '') }}</textarea>
                     </div>
                 </div>
 
                 <button type="submit" class="w-full py-3.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition text-sm">
-                    Submit Registration
+                    Save Registration
                 </button>
             </form>
-            @endif
         </div>
     </section>
 
@@ -172,7 +213,7 @@
     <footer class="py-12 bg-gray-900 text-gray-400">
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-3"><img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn" class="h-8 brightness-0 invert opacity-60"><span class="text-sm">International Sales Meeting 2026</span></div>
+                <div class="flex items-center gap-3"><img src="{{ asset('assets/images/logo.svg') }}" alt="Mühlen Sohn" class="h-8 brightness-0 invert opacity-60"></div>
                 <div class="flex flex-wrap gap-6 text-sm"><a href="{{ route('kontakt') }}" class="hover:text-white transition">Contact</a><a href="https://www.muehlen-sohn.de" target="_blank" class="hover:text-white transition">muehlen-sohn.de</a></div>
             </div>
             <div class="mt-8 pt-8 border-t border-gray-800 text-center text-xs text-gray-500">&copy; 2026 Mühlen Sohn. All rights reserved.</div>
