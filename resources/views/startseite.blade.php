@@ -105,7 +105,7 @@
                 </a>
                 <a href="{{ route('formular') }}"
                    class="inline-flex items-center px-6 py-3 border border-white/40 text-white text-sm font-medium rounded-lg hover:border-white/70 transition">
-                    To register
+                    Manage Registration Details
                 </a>
             </div>
         </div>
@@ -266,8 +266,8 @@
             </a>
             <a href="{{ route('formular') }}"
                class="group p-6 bg-white rounded-xl border border-gray-200 hover:border-gray-300 transition">
-                <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-gray-600 transition">Registration</h3>
-                <p class="text-sm text-gray-400">Participant Form</p>
+                <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-gray-600 transition">Registration Details</h3>
+                <p class="text-sm text-gray-400">Manage your event profile</p>
             </a>
             <a href="{{ route('galerie') }}"
                class="group p-6 bg-white rounded-xl border border-gray-200 hover:border-gray-300 transition">

@@ -52,7 +52,7 @@
     <section class="pt-32 pb-16 md:pt-40 md:pb-20 bg-gradient-to-br from-gray-50 to-white">
         <div class="max-w-6xl mx-auto px-6">
             <p class="text-sm font-semibold uppercase tracking-widest text-gray-400 mb-4">Participants</p>
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Registration</h1>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Your Event Details</h1>
             <p class="text-lg text-gray-500 max-w-2xl">Please fill out the following form completely. Your information helps us with the organisation.</p>
         </div>
     </section>
