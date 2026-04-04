@@ -8,7 +8,7 @@
         <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Open Registration Items</p>
         <div class="space-y-2">
             @foreach($todoItems as $item)
-                <a href="{{ route('formular') }}" class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition">
+                <a href="{{ route($item['route'] ?? 'formular') }}" class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition">
                     <span class="text-sm text-gray-700">{{ $item['label'] }}</span>
                     <span class="text-xs text-red-500 font-medium">{{ $item['deadline'] }}</span>
                 </a>

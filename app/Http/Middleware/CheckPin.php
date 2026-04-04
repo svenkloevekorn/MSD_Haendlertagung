@@ -34,7 +34,15 @@ class CheckPin
             ->where('dealer_id', $dealerId)
             ->first()?->data ?? [];
 
+        $marketSaved = FormSubmission::where('form_slug', FormSubmission::FORM_MARKET_INFO)
+            ->where('dealer_id', $dealerId)
+            ->first()?->data ?? [];
+
         $todoItems = [];
+        $hasMarketInfo = ! empty($marketSaved['market_share'] ?? null) || ! empty($marketSaved['challenges'] ?? null);
+        if (! $hasMarketInfo) {
+            $todoItems[] = ['label' => 'Market Info', 'deadline' => 'May 15, 2026', 'route' => 'market-info'];
+        }
         if (empty($saved['factory_tour'] ?? null)) {
             $todoItems[] = ['label' => 'Factory Tour', 'deadline' => 'May 1, 2026'];
         }

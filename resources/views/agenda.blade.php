@@ -37,6 +37,7 @@
                 <a href="{{ route('startseite') }}" class="hover:text-gray-900 transition">Home</a>
                 <a href="{{ route('agenda') }}" class="text-gray-900">Agenda</a>
                 <a href="{{ route('formular') }}" class="hover:text-gray-900 transition">Registration</a>
+                <a href="{{ route('market-info') }}" class="hover:text-gray-900 transition">Market Info</a>
                 <a href="{{ route('galerie') }}" class="hover:text-gray-900 transition">Gallery</a>
                 <a href="{{ route('downloads') }}" class="hover:text-gray-900 transition">Downloads</a>
                 <a href="{{ route('feedback') }}" class="hover:text-gray-900 transition">Feedback</a>
@@ -62,6 +63,7 @@
                 <a href="{{ route('startseite') }}" class="hover:text-gray-900">Home</a>
                 <a href="{{ route('agenda') }}" class="text-gray-900">Agenda</a>
                 <a href="{{ route('formular') }}" class="hover:text-gray-900">Registration</a>
+                <a href="{{ route('market-info') }}" class="hover:text-gray-900">Market Info</a>
                 <a href="{{ route('galerie') }}" class="hover:text-gray-900">Gallery</a>
                 <a href="{{ route('downloads') }}" class="hover:text-gray-900">Downloads</a>
                 <a href="{{ route('feedback') }}" class="hover:text-gray-900">Feedback</a>

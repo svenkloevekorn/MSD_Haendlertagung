@@ -21,6 +21,7 @@
                 <a href="{{ route('startseite') }}" class="hover:text-gray-900 transition">Home</a>
                 <a href="{{ route('agenda') }}" class="hover:text-gray-900 transition">Agenda</a>
                 <a href="{{ route('formular') }}" class="text-gray-900">Registration</a>
+                <a href="{{ route('market-info') }}" class="hover:text-gray-900 transition">Market Info</a>
                 <a href="{{ route('galerie') }}" class="hover:text-gray-900 transition">Gallery</a>
                 <a href="{{ route('downloads') }}" class="hover:text-gray-900 transition">Downloads</a>
                 <a href="{{ route('feedback') }}" class="hover:text-gray-900 transition">Feedback</a>
@@ -39,7 +40,7 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
             <div class="px-6 py-4 flex flex-col gap-3 text-sm font-medium text-gray-600">
-                <a href="{{ route('startseite') }}">Home</a><a href="{{ route('agenda') }}">Agenda</a><a href="{{ route('formular') }}" class="text-gray-900">Registration</a><a href="{{ route('galerie') }}">Gallery</a><a href="{{ route('downloads') }}">Downloads</a><a href="{{ route('feedback') }}">Feedback</a><a href="{{ route('kontakt') }}">Contact</a>
+                <a href="{{ route('startseite') }}">Home</a><a href="{{ route('agenda') }}">Agenda</a><a href="{{ route('formular') }}" class="text-gray-900">Registration</a><a href="{{ route('market-info') }}" class="hover:text-gray-900">Market Info</a><a href="{{ route('galerie') }}">Gallery</a><a href="{{ route('downloads') }}">Downloads</a><a href="{{ route('feedback') }}">Feedback</a><a href="{{ route('kontakt') }}">Contact</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="text-red-500 hover:text-red-600">Log out</button>

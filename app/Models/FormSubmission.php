@@ -19,10 +19,12 @@ class FormSubmission extends Model
 
     public const FORM_REGISTRATION = 'registration';
     public const FORM_FEEDBACK = 'feedback';
+    public const FORM_MARKET_INFO = 'market_info';
 
     public static array $formLabels = [
         self::FORM_REGISTRATION => 'Registration',
         self::FORM_FEEDBACK => 'Feedback',
+        self::FORM_MARKET_INFO => 'Market Info',
     ];
 
     public function dealer(): BelongsTo

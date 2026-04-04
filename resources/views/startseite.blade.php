@@ -38,6 +38,7 @@
             <a href="{{ route('startseite') }}" class="text-gray-900">Home</a>
             <a href="{{ route('agenda') }}" class="hover:text-gray-900 transition">Agenda</a>
             <a href="{{ route('formular') }}" class="hover:text-gray-900 transition">Registration</a>
+                <a href="{{ route('market-info') }}" class="hover:text-gray-900 transition">Market Info</a>
             <a href="{{ route('galerie') }}" class="hover:text-gray-900 transition">Gallery</a>
             <a href="{{ route('downloads') }}" class="hover:text-gray-900 transition">Downloads</a>
             <a href="{{ route('feedback') }}" class="hover:text-gray-900 transition">Feedback</a>
@@ -66,6 +67,7 @@
             <a href="{{ route('startseite') }}" class="text-gray-900">Home</a>
             <a href="{{ route('agenda') }}" class="hover:text-gray-900">Agenda</a>
             <a href="{{ route('formular') }}" class="hover:text-gray-900">Registration</a>
+            <a href="{{ route('market-info') }}" class="hover:text-gray-900">Market Info</a>
             <a href="{{ route('galerie') }}" class="hover:text-gray-900">Gallery</a>
             <a href="{{ route('downloads') }}" class="hover:text-gray-900">Downloads</a>
             <a href="{{ route('feedback') }}" class="hover:text-gray-900">Feedback</a>
@@ -167,46 +169,82 @@
             </div>
         </div>
 
-        <!-- Registration Status -->
+        <!-- Status Cards -->
         @if(isset($todoItems))
-        <div class="mt-12 p-6 bg-white rounded-2xl border border-gray-200">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-900">Your Registration</h3>
-                @if(count($todoItems) > 0)
-                    <span class="text-xs font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full">{{ count($todoItems) }} open</span>
-                @else
-                    <span class="text-xs font-medium text-brand-green bg-brand-green/10 px-3 py-1 rounded-full">All done</span>
+        @php
+            $allRegItems = [
+                ['label' => 'Factory Tour', 'deadline' => 'May 1, 2026', 'done' => !collect($todoItems)->contains('label', 'Factory Tour')],
+                ['label' => 'Intolerances / Allergies', 'deadline' => 'June 1, 2026', 'done' => !collect($todoItems)->contains('label', 'Intolerances / Allergies')],
+                ['label' => 'Mobile Numbers', 'deadline' => 'June 10, 2026', 'done' => !collect($todoItems)->contains('label', 'Mobile Numbers')],
+            ];
+            $hasMarketInfo = !collect($todoItems)->contains('label', 'Market Info');
+        @endphp
+        <div class="mt-12 grid md:grid-cols-2 gap-6">
+            <!-- Your Registration -->
+            <div class="p-6 bg-white rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Your Registration</h3>
+                    @php $regOpen = collect($allRegItems)->where('done', false)->count(); @endphp
+                    @if($regOpen > 0)
+                        <span class="text-xs font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full">{{ $regOpen }} open</span>
+                    @else
+                        <span class="text-xs font-medium text-brand-green bg-brand-green/10 px-3 py-1 rounded-full">All done</span>
+                    @endif
+                </div>
+                <div class="space-y-3">
+                    @foreach($allRegItems as $item)
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                @if($item['done'])
+                                    <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    <span class="text-sm text-gray-500 line-through">{{ $item['label'] }}</span>
+                                @else
+                                    <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                                    <span class="text-sm text-gray-700">{{ $item['label'] }}</span>
+                                @endif
+                            </div>
+                            <span class="text-xs {{ $item['done'] ? 'text-gray-400' : 'text-red-500 font-medium' }}">{{ $item['deadline'] }}</span>
+                        </div>
+                    @endforeach
+                </div>
+                @if($regOpen > 0)
+                    <a href="{{ route('formular') }}" class="mt-5 inline-flex items-center text-sm font-medium text-brand-green hover:text-brand-dark transition">
+                        Complete your registration
+                        <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
                 @endif
             </div>
-            <div class="space-y-3">
-                @php
-                    $allItems = [
-                        ['label' => 'Factory Tour', 'deadline' => 'May 1, 2026', 'done' => !collect($todoItems)->contains('label', 'Factory Tour')],
-                        ['label' => 'Intolerances / Allergies', 'deadline' => 'June 1, 2026', 'done' => !collect($todoItems)->contains('label', 'Intolerances / Allergies')],
-                        ['label' => 'Mobile Numbers', 'deadline' => 'June 10, 2026', 'done' => !collect($todoItems)->contains('label', 'Mobile Numbers')],
-                    ];
-                @endphp
-                @foreach($allItems as $item)
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            @if($item['done'])
-                                <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                <span class="text-sm text-gray-500 line-through">{{ $item['label'] }}</span>
-                            @else
-                                <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
-                                <span class="text-sm text-gray-700">{{ $item['label'] }}</span>
-                            @endif
-                        </div>
-                        <span class="text-xs {{ $item['done'] ? 'text-gray-400' : 'text-red-500 font-medium' }}">{{ $item['deadline'] }}</span>
+
+            <!-- Market Info -->
+            <div class="p-6 bg-white rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Market Info</h3>
+                    @if($hasMarketInfo)
+                        <span class="text-xs font-medium text-brand-green bg-brand-green/10 px-3 py-1 rounded-full">Submitted</span>
+                    @else
+                        <span class="text-xs font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full">Open</span>
+                    @endif
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        @if($hasMarketInfo)
+                            <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span class="text-sm text-gray-500 line-through">Market information</span>
+                        @else
+                            <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                            <span class="text-sm text-gray-700">Market information</span>
+                        @endif
                     </div>
-                @endforeach
+                    <span class="text-xs {{ $hasMarketInfo ? 'text-gray-400' : 'text-red-500 font-medium' }}">May 15, 2026</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-3">Share your market insights – market share, challenges, competitors and expectations.</p>
+                @if(!$hasMarketInfo)
+                    <a href="{{ route('market-info') }}" class="mt-4 inline-flex items-center text-sm font-medium text-brand-green hover:text-brand-dark transition">
+                        Fill in Market Info
+                        <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                @endif
             </div>
-            @if(count($todoItems) > 0)
-                <a href="{{ route('formular') }}" class="mt-5 inline-flex items-center text-sm font-medium text-brand-green hover:text-brand-dark transition">
-                    Complete your registration
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                </a>
-            @endif
         </div>
         @endif
     </div>

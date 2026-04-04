@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\MarketInfoController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\DownloadController;
@@ -26,6 +27,8 @@ Route::middleware('pin')->group(function () {
     Route::get('/speakers/{speaker}/image', [SpeakerController::class, 'image'])->name('speakers.image');
     Route::get('/formular', [RegistrationController::class, 'show'])->name('formular');
     Route::post('/formular', [RegistrationController::class, 'submit'])->name('formular.submit');
+    Route::get('/market-info', [MarketInfoController::class, 'show'])->name('market-info');
+    Route::post('/market-info', [MarketInfoController::class, 'submit'])->name('market-info.submit');
     Route::get('/feedback', [FeedbackController::class, 'show'])->name('feedback');
     Route::post('/feedback', [FeedbackController::class, 'submit'])->name('feedback.submit');
     Route::get('/kontakt', [ContactController::class, 'index'])->name('kontakt');
