@@ -38,10 +38,18 @@ class CheckPin
             ->where('dealer_id', $dealerId)
             ->first()?->data ?? [];
 
+        $hasFeedback = FormSubmission::where('form_slug', FormSubmission::FORM_FEEDBACK)
+            ->where('dealer_id', $dealerId)
+            ->exists();
+        View::share('hasFeedback', $hasFeedback);
+
         $todoItems = [];
         $hasMarketInfo = ! empty($marketSaved['market_share'] ?? null) || ! empty($marketSaved['challenges'] ?? null);
         if (! $hasMarketInfo) {
             $todoItems[] = ['label' => 'Market Info', 'deadline' => 'May 15, 2026', 'route' => 'market-info'];
+        }
+        if (! $hasFeedback) {
+            $todoItems[] = ['label' => 'Feedback', 'route' => 'feedback'];
         }
         if (empty($saved['factory_tour'] ?? null)) {
             $todoItems[] = ['label' => 'Factory Tour', 'deadline' => 'May 1, 2026'];

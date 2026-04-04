@@ -5,12 +5,14 @@
         <span class="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">{{ count($todoItems) }}</span>
     </a>
     <div class="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Open Registration Items</p>
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Open Items</p>
         <div class="space-y-2">
             @foreach($todoItems as $item)
                 <a href="{{ route($item['route'] ?? 'formular') }}" class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition">
                     <span class="text-sm text-gray-700">{{ $item['label'] }}</span>
-                    <span class="text-xs text-red-500 font-medium">{{ $item['deadline'] }}</span>
+                    @if(!empty($item['deadline'] ?? null))
+                        <span class="text-xs text-red-500 font-medium">{{ $item['deadline'] }}</span>
+                    @endif
                 </a>
             @endforeach
         </div>

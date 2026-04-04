@@ -215,35 +215,57 @@
                 @endif
             </div>
 
-            <!-- Market Info -->
+            <!-- Market Info & Feedback -->
             <div class="p-6 bg-white rounded-2xl border border-gray-200">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-900">Market Info</h3>
-                    @if($hasMarketInfo)
-                        <span class="text-xs font-medium text-brand-green bg-brand-green/10 px-3 py-1 rounded-full">Submitted</span>
+                    <h3 class="text-lg font-semibold text-gray-900">Forms & Feedback</h3>
+                    @php $formsOpen = ($hasMarketInfo ? 0 : 1) + (($hasFeedback ?? false) ? 0 : 1); @endphp
+                    @if($formsOpen > 0)
+                        <span class="text-xs font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full">{{ $formsOpen }} open</span>
                     @else
-                        <span class="text-xs font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full">Open</span>
+                        <span class="text-xs font-medium text-brand-green bg-brand-green/10 px-3 py-1 rounded-full">All done</span>
                     @endif
                 </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        @if($hasMarketInfo)
-                            <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            <span class="text-sm text-gray-500 line-through">Market information</span>
-                        @else
-                            <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
-                            <span class="text-sm text-gray-700">Market information</span>
-                        @endif
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            @if($hasMarketInfo)
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <span class="text-sm text-gray-500 line-through">Market Info</span>
+                            @else
+                                <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                                <span class="text-sm text-gray-700">Market Info</span>
+                            @endif
+                        </div>
+                        <span class="text-xs {{ $hasMarketInfo ? 'text-gray-400' : 'text-red-500 font-medium' }}">May 15, 2026</span>
                     </div>
-                    <span class="text-xs {{ $hasMarketInfo ? 'text-gray-400' : 'text-red-500 font-medium' }}">May 15, 2026</span>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            @if($hasFeedback ?? false)
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <span class="text-sm text-gray-500 line-through">Feedback</span>
+                            @else
+                                <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                                <span class="text-sm text-gray-700">Feedback</span>
+                            @endif
+                        </div>
+                        <span class="text-xs text-gray-400">No deadline</span>
+                    </div>
                 </div>
-                <p class="text-sm text-gray-400 mt-3">Share your market insights – market share, challenges, competitors and expectations.</p>
-                @if(!$hasMarketInfo)
-                    <a href="{{ route('market-info') }}" class="mt-4 inline-flex items-center text-sm font-medium text-brand-green hover:text-brand-dark transition">
-                        Fill in Market Info
-                        <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                @endif
+                <div class="mt-5 flex flex-wrap gap-4">
+                    @if(!$hasMarketInfo)
+                        <a href="{{ route('market-info') }}" class="inline-flex items-center text-sm font-medium text-brand-green hover:text-brand-dark transition">
+                            Fill in Market Info
+                            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    @endif
+                    @if(!($hasFeedback ?? false))
+                        <a href="{{ route('feedback') }}" class="inline-flex items-center text-sm font-medium text-brand-green hover:text-brand-dark transition">
+                            Give Feedback
+                            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    @endif
+                </div>
             </div>
         </div>
         @endif
