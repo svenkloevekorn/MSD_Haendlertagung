@@ -44,7 +44,11 @@ class CheckPin
         View::share('hasFeedback', $hasFeedback);
 
         $todoItems = [];
-        $hasMarketInfo = ! empty($marketSaved['market_share'] ?? null) || ! empty($marketSaved['challenges'] ?? null);
+        $hasMarketInfo = ! empty($marketSaved['market_share'] ?? null)
+            && ! empty($marketSaved['challenges'] ?? null)
+            && ! empty($marketSaved['chances_potential'] ?? null)
+            && ! empty($marketSaved['competitors'] ?? null)
+            && ! empty($marketSaved['expectations'] ?? null);
         if (! $hasMarketInfo) {
             $todoItems[] = ['label' => 'Market Info', 'deadline' => 'May 15, 2026', 'route' => 'market-info'];
         }

@@ -25,13 +25,8 @@ class MarketInfoController extends Controller
 
     public function submit(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'market_share' => 'nullable|string|max:5000',
-            'challenges' => 'nullable|string|max:5000',
-            'chances_potential' => 'nullable|string|max:5000',
-            'competitors' => 'nullable|string|max:5000',
-            'expectations' => 'nullable|string|max:5000',
-        ]);
+        $fields = ['market_share', 'challenges', 'chances_potential', 'competitors', 'expectations'];
+        $data = $request->only($fields);
 
         $dealer = Dealer::find(session('dealer_id'));
 
@@ -43,18 +38,39 @@ class MarketInfoController extends Controller
             ['data' => [
                 'first_name' => $dealer->first_name,
                 'last_name' => $dealer->last_name,
-                'market_share' => $validated['market_share'] ?? '',
-                'challenges' => $validated['challenges'] ?? '',
-                'chances_potential' => $validated['chances_potential'] ?? '',
-                'competitors' => $validated['competitors'] ?? '',
-                'expectations' => $validated['expectations'] ?? '',
+                'market_share' => $data['market_share'] ?? '',
+                'challenges' => $data['challenges'] ?? '',
+                'chances_potential' => $data['chances_potential'] ?? '',
+                'competitors' => $data['competitors'] ?? '',
+                'expectations' => $data['expectations'] ?? '',
             ]]
         );
+
+        // Check for missing fields and show errors
+        $missing = [];
+        $messages = [
+            'market_share' => 'Please fill in the MS Market Share field.',
+            'challenges' => 'Please fill in the Challenges field.',
+            'chances_potential' => 'Please fill in the Chances / Potential field.',
+            'competitors' => 'Please fill in the Competitors field.',
+            'expectations' => 'Please fill in the Expectations field.',
+        ];
+        foreach ($messages as $field => $msg) {
+            if (empty($data[$field])) {
+                $missing[$field] = $msg;
+            }
+        }
 
         $confirmation = Setting::get(
             'confirmation_market_info',
             'Your market information has been saved!'
         );
+
+        if (! empty($missing)) {
+            return redirect()->route('market-info')
+                ->with('success', $confirmation . ' Please complete all required fields.')
+                ->withErrors($missing);
+        }
 
         return redirect()->route('market-info')->with('success', $confirmation);
     }

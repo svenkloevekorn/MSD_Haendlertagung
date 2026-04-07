@@ -76,7 +76,7 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('market-info.submit') }}" class="space-y-8">
+            <form method="POST" action="{{ route('market-info.submit') }}" class="space-y-8" novalidate>
                 @csrf
 
                 @if($errors->any())
@@ -89,30 +89,21 @@
                     </div>
                 @endif
 
+                @foreach([
+                    'market_share' => ['label' => 'MS Market Share', 'placeholder' => 'Describe your current market share...'],
+                    'challenges' => ['label' => 'Challenges', 'placeholder' => 'What challenges do you face in your market?'],
+                    'chances_potential' => ['label' => 'Chances / Potential', 'placeholder' => 'What opportunities and potential do you see?'],
+                    'competitors' => ['label' => 'Competitors and their Strengths', 'placeholder' => 'Who are the main competitors and what are their strengths?'],
+                    'expectations' => ['label' => 'Your Expectations / Requests to MS', 'placeholder' => 'What do you expect or request from Mühlen Sohn?'],
+                ] as $field => $meta)
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">MS Market Share</label>
-                    <textarea name="market_share" rows="4" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="Describe your current market share...">{{ old('market_share', $saved['market_share'] ?? '') }}</textarea>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">{{ $meta['label'] }} *</label>
+                    <textarea name="{{ $field }}" rows="4" class="w-full px-4 py-3 border {{ $errors->has($field) ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="{{ $meta['placeholder'] }}">{{ old($field, $saved[$field] ?? '') }}</textarea>
+                    @error($field)
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Challenges</label>
-                    <textarea name="challenges" rows="4" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="What challenges do you face in your market?">{{ old('challenges', $saved['challenges'] ?? '') }}</textarea>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Chances / Potential</label>
-                    <textarea name="chances_potential" rows="4" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="What opportunities and potential do you see?">{{ old('chances_potential', $saved['chances_potential'] ?? '') }}</textarea>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Competitors and their Strengths</label>
-                    <textarea name="competitors" rows="4" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="Who are the main competitors and what are their strengths?">{{ old('competitors', $saved['competitors'] ?? '') }}</textarea>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Your Expectations / Requests to MS</label>
-                    <textarea name="expectations" rows="4" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="What do you expect or request from Mühlen Sohn?">{{ old('expectations', $saved['expectations'] ?? '') }}</textarea>
-                </div>
+                @endforeach
 
                 <button type="submit" class="w-full py-3.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition text-sm">
                     Save Market Info
