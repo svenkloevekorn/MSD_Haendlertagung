@@ -42,14 +42,23 @@ class FeedbackTest extends TestCase
         $response->assertSee('Overall Impression');
     }
 
+    private array $completeData = [
+        'rating' => '4',
+        'rating_accommodation' => '3',
+        'rating_catering' => '4',
+        'rating_program' => '3',
+        'rating_presentations' => '4',
+        'rating_organisation' => '3',
+        'liked' => 'Great networking',
+        'improve' => 'More breaks',
+        'topics' => 'Innovation',
+        'additional_comments' => 'Well done',
+    ];
+
     public function test_feedback_submit_stores_submission(): void
     {
         $response = $this->withSession($this->authenticatedSession())
-            ->post('/feedback', [
-                'rating' => '4',
-                'liked' => 'Great networking',
-                'improve' => 'More breaks',
-            ]);
+            ->post('/feedback', $this->completeData);
 
         $response->assertRedirect('/feedback');
         $response->assertSessionHas('success');
@@ -61,13 +70,13 @@ class FeedbackTest extends TestCase
         $this->assertEquals('Great networking', $submission->data['liked']);
     }
 
-    public function test_feedback_validates_rating_required(): void
+    public function test_feedback_shows_errors_for_missing_fields(): void
     {
         $response = $this->withSession($this->authenticatedSession())
             ->post('/feedback', []);
 
         $response->assertSessionHasErrors(['rating']);
-        $this->assertDatabaseCount('form_submissions', 0);
+        $this->assertDatabaseCount('form_submissions', 1);
     }
 
     public function test_feedback_shows_confirmation_from_settings(): void
@@ -75,7 +84,7 @@ class FeedbackTest extends TestCase
         Setting::set('confirmation_feedback', 'Thanks for your feedback!');
         $session = $this->authenticatedSession();
 
-        $this->withSession($session)->post('/feedback', ['rating' => '3']);
+        $this->withSession($session)->post('/feedback', $this->completeData);
 
         $follow = $this->withSession($session)->get('/feedback');
         $follow->assertSee('Thanks for your feedback!');

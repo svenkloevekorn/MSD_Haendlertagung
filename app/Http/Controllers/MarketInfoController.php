@@ -68,8 +68,8 @@ class MarketInfoController extends Controller
 
         if (! empty($missing)) {
             return redirect()->route('market-info')
-                ->with('success', $confirmation . ' Please complete all required fields.')
-                ->withErrors($missing);
+                ->withErrors($missing)
+                ->withInput();
         }
 
         return redirect()->route('market-info')->with('success', $confirmation);
