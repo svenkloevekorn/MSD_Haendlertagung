@@ -26,14 +26,17 @@ class RegistrationController extends Controller
     public function submit(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'mobile' => 'nullable|string|max:255',
+            'mobile' => ['nullable', 'string', 'max:255', 'regex:/^\+[0-9\s\-]+$/'],
             'company' => 'nullable|string|max:255',
             'no_companion' => 'nullable|in:true',
-            'companion_mobile' => 'nullable|string|max:255',
+            'companion_mobile' => ['nullable', 'string', 'max:255', 'regex:/^\+[0-9\s\-]+$/'],
             'no_allergies' => 'nullable|in:true',
             'allergies' => 'nullable|string|max:1000',
             'factory_tour' => 'nullable|in:yes,no',
             'comments' => 'nullable|string|max:2000',
+        ], [
+            'mobile.regex' => 'Please use international format starting with + (e.g. +49 171 1234567).',
+            'companion_mobile.regex' => 'Please use international format starting with + (e.g. +49 171 1234567).',
         ]);
 
         $dealer = Dealer::find(session('dealer_id'));

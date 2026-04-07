@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('formular.submit') }}" class="space-y-8">
+            <form method="POST" action="{{ route('formular.submit') }}" class="space-y-8" novalidate>
                 @csrf
 
                 @if($errors->any())
@@ -138,7 +138,12 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">Mobile Number</label>
-                            <input type="tel" name="mobile" value="{{ old('mobile', $saved['mobile'] ?? '') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 ...">
+                            <input type="tel" name="mobile" value="{{ old('mobile', $saved['mobile'] ?? '') }}" pattern="\+[0-9\s\-]+" title="Please use international format starting with + (e.g. +49 171 1234567)" class="w-full px-4 py-3 border {{ $errors->has('mobile') ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 171 1234567">
+                            @error('mobile')
+                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                            @else
+                                <p class="text-xs text-gray-400 mt-1">International format, e.g. +49 171 1234567</p>
+                            @enderror
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">Company</label>
@@ -157,7 +162,12 @@
                         </div>
                         <div x-show="!noCompanion" x-transition>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">Mobile Number (Accompanying Person)</label>
-                            <input type="tel" name="companion_mobile" value="{{ old('companion_mobile', $saved['companion_mobile'] ?? '') }}" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 ...">
+                            <input type="tel" name="companion_mobile" value="{{ old('companion_mobile', $saved['companion_mobile'] ?? '') }}" pattern="\+[0-9\s\-]+" title="Please use international format starting with + (e.g. +49 171 1234567)" class="w-full px-4 py-3 border {{ $errors->has('companion_mobile') ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="+49 171 1234567">
+                            @error('companion_mobile')
+                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                            @else
+                                <p class="text-xs text-gray-400 mt-1">International format, e.g. +49 171 1234567</p>
+                            @enderror
                         </div>
                     </div>
                 </div>
