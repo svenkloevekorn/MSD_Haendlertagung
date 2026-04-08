@@ -164,7 +164,8 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">Location</h3>
                 <p class="text-gray-500 leading-relaxed">
                     <a href="https://hotel.lago-ulm.de/en/" target="_blank" class="text-gray-700 hover:text-brand-green transition font-medium">LAGO hotel &amp; restaurant on the lake</a><br>
-                    <span class="text-sm text-gray-400">Friedrichsau 50, 89073 Ulm/Danube</span>
+                    <span class="text-sm text-gray-400">Friedrichsau 50, 89073 Ulm/Danube</span><br>
+                    <span class="text-sm text-gray-400">Conference Room E61, 6th floor</span>
                 </p>
             </div>
         </div>

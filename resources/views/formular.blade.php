@@ -163,7 +163,7 @@
 
                 <!-- Accompanying Person + Activities -->
                 <div x-data="{ noCompanion: {{ old('no_companion', $saved['no_companion'] ?? '') === 'true' ? 'true' : 'false' }} }">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Accompanying Person</h2>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Accompanying Person (Partner)</h2>
                     <div class="space-y-4">
                         <div class="flex items-center gap-3">
                             <input type="checkbox" id="no-companion" name="no_companion" value="true" x-model="noCompanion" {{ old('no_companion', $saved['no_companion'] ?? '') === 'true' ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
@@ -207,7 +207,7 @@
                         return idx > -1 ? idx + 1 : null;
                     }
                 }">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Activities</h2>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Activities (Partner Program)</h2>
                     <p class="text-sm text-gray-500 mb-4">Please rank the following activities by clicking them in order of your preference (1st = most preferred).</p>
                     <div class="space-y-3">
                         <template x-for="(option, i) in options" :key="option">
