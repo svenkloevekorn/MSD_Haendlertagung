@@ -24,6 +24,8 @@ class DownloadController extends Controller
             abort(404);
         }
 
+        $download->increment('download_count');
+
         return Storage::disk('local')->download($download->file_path, $download->original_filename);
     }
 }

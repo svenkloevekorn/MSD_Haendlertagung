@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Downloads\Tables;
 
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Illuminate\Database\Eloquent\Collection;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -41,6 +43,9 @@ class DownloadsTable
                         'live' => 'Live',
                         'draft' => 'Entwurf',
                     }),
+                TextColumn::make('download_count')
+                    ->label('Downloads')
+                    ->sortable(),
                 TextColumn::make('sort_order')
                     ->label('Reihenfolge')
                     ->sortable(),
@@ -60,6 +65,18 @@ class DownloadsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    BulkAction::make('setLive')
+                        ->label('Set Live')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->action(fn (Collection $records) => $records->each(fn ($r) => $r->update(['status' => 'live'])))
+                        ->deselectRecordsAfterCompletion(),
+                    BulkAction::make('setDraft')
+                        ->label('Set Draft')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('gray')
+                        ->action(fn (Collection $records) => $records->each(fn ($r) => $r->update(['status' => 'draft'])))
+                        ->deselectRecordsAfterCompletion(),
                     DeleteBulkAction::make(),
                 ]),
             ]);

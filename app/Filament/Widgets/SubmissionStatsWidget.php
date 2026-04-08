@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Dealer;
+use App\Models\Download;
 use App\Models\FormSubmission;
 use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget;
@@ -86,6 +87,9 @@ class SubmissionStatsWidget extends StatsOverviewWidget
             Stat::make('Overdue', $overdueCount)
                 ->description('Dealers with missed deadlines')
                 ->color($overdueCount === '0' ? 'success' : 'danger'),
+            Stat::make('Downloads', (string) Download::sum('download_count'))
+                ->description('Total file downloads')
+                ->color('gray'),
         ];
     }
 
