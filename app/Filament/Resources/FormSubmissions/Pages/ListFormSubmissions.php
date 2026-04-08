@@ -30,8 +30,8 @@ class ListFormSubmissions extends ListRecords
                 ->action(fn (): StreamedResponse => self::exportForm(
                     FormSubmission::FORM_MARKET_INFO,
                     'market-info',
-                    ['First Name', 'Last Name', 'MS Market Share', 'Challenges', 'Chances / Potential', 'Competitors', 'Expectations'],
-                    ['first_name', 'last_name', 'market_share', 'challenges', 'chances_potential', 'competitors', 'expectations'],
+                    ['First Name', 'Last Name', 'Delegated to', 'MS Market Share', 'Challenges', 'Chances / Potential', 'Competitors', 'Expectations'],
+                    ['first_name', 'last_name', 'delegated_to', 'market_share', 'challenges', 'chances_potential', 'competitors', 'expectations'],
                 )),
             Action::make('exportFeedback')
                 ->label('Export Feedback')

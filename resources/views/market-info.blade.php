@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Info – International Sales Meeting 2026 | Mühlen Sohn</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { green: '#0EA039', dark: '#565656' } } } } }
@@ -76,7 +77,8 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('market-info.submit') }}" class="space-y-8" novalidate>
+            <form method="POST" action="{{ route('market-info.submit') }}" class="space-y-8" novalidate
+                x-data="{ delegated: {{ old('delegated_to', $saved['delegated_to'] ?? '') ? 'true' : 'false' }} }">
                 @csrf
 
                 @if($errors->any())
@@ -89,6 +91,26 @@
                     </div>
                 @endif
 
+                <!-- Delegation Toggle -->
+                <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="delegated-toggle" name="delegated" value="true" x-model="delegated"
+                            {{ old('delegated_to', $saved['delegated_to'] ?? '') ? 'checked' : '' }}
+                            class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-200">
+                        <label for="delegated-toggle" class="text-sm text-gray-700">A colleague has already submitted this information</label>
+                    </div>
+                    <div x-show="delegated" x-transition class="mt-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Name of colleague</label>
+                        <input type="text" name="delegated_to" value="{{ old('delegated_to', $saved['delegated_to'] ?? '') }}"
+                            class="w-full px-4 py-3 border {{ $errors->has('delegated_to') ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                            placeholder="Name of the colleague who submitted">
+                        @error('delegated_to')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div x-show="!delegated" x-transition>
                 @foreach([
                     'market_share' => ['label' => 'MS Market Share', 'placeholder' => 'Describe your current market share...'],
                     'challenges' => ['label' => 'Challenges', 'placeholder' => 'What challenges do you face in your market?'],
@@ -104,6 +126,7 @@
                     @enderror
                 </div>
                 @endforeach
+                </div>
 
                 <button type="submit" class="w-full py-3.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition text-sm">
                     Save Market Info

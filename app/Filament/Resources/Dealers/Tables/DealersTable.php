@@ -92,12 +92,13 @@ class DealersTable
 
         $count = 0;
 
-        // Market Info (all 5 fields)
-        $hasMarketInfo = !empty($marketData['market_share'] ?? null)
+        // Market Info (all 5 fields or delegated)
+        $hasMarketInfo = !empty($marketData['delegated_to'] ?? null)
+            || (!empty($marketData['market_share'] ?? null)
             && !empty($marketData['challenges'] ?? null)
             && !empty($marketData['chances_potential'] ?? null)
             && !empty($marketData['competitors'] ?? null)
-            && !empty($marketData['expectations'] ?? null);
+            && !empty($marketData['expectations'] ?? null));
         if (!$hasMarketInfo) $count++;
 
         // Factory Tour

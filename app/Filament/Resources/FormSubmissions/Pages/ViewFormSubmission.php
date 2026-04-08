@@ -30,6 +30,7 @@ class ViewFormSubmission extends ViewRecord
         'factory_tour' => 'Factory Tour',
         'whatsapp' => 'WhatsApp Group',
         'comments' => 'Comments',
+        'delegated_to' => 'Delegated to Colleague',
         'market_share' => 'MS Market Share',
         'challenges' => 'Challenges',
         'chances_potential' => 'Chances / Potential',
