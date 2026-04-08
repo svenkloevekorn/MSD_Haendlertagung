@@ -21,8 +21,8 @@ class ListFormSubmissions extends ListRecords
                 ->action(fn (): StreamedResponse => self::exportForm(
                     FormSubmission::FORM_REGISTRATION,
                     'registration',
-                    ['First Name', 'Last Name', 'Email', 'Mobile', 'Company', 'No Companion', 'Companion Mobile', 'No Allergies', 'Allergies', 'Factory Tour', 'Comments'],
-                    ['first_name', 'last_name', 'email', 'mobile', 'company', 'no_companion', 'companion_mobile', 'no_allergies', 'allergies', 'factory_tour', 'comments'],
+                    ['First Name', 'Last Name', 'Email', 'Mobile', 'Company', 'No Companion', 'Companion Mobile', 'Activity 1st', 'Activity 2nd', 'Activity 3rd', 'No Allergies', 'Allergies', 'Factory Tour', 'Comments'],
+                    ['first_name', 'last_name', 'email', 'mobile', 'company', 'no_companion', 'companion_mobile', 'activity_1', 'activity_2', 'activity_3', 'no_allergies', 'allergies', 'factory_tour', 'comments'],
                 )),
             Action::make('exportMarketInfo')
                 ->label('Export Market Info')

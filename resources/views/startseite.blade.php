@@ -174,6 +174,7 @@
         @php
             $allRegItems = [
                 ['label' => 'Factory Tour', 'deadline' => 'May 1, 2026', 'done' => !collect($todoItems)->contains('label', 'Factory Tour')],
+                ['label' => 'Activities Ranking', 'deadline' => 'May 1, 2026', 'done' => !collect($todoItems)->contains('label', 'Activities Ranking')],
                 ['label' => 'Intolerances / Allergies', 'deadline' => 'June 1, 2026', 'done' => !collect($todoItems)->contains('label', 'Intolerances / Allergies')],
                 ['label' => 'Mobile Numbers', 'deadline' => 'June 10, 2026', 'done' => !collect($todoItems)->contains('label', 'Mobile Numbers')],
             ];

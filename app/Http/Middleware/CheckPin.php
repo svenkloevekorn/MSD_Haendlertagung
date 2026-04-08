@@ -58,6 +58,10 @@ class CheckPin
         if (empty($saved['factory_tour'] ?? null)) {
             $todoItems[] = ['label' => 'Factory Tour', 'deadline' => 'May 1, 2026'];
         }
+        if (($saved['no_companion'] ?? '') !== 'true'
+            && (empty($saved['activity_1'] ?? null) || empty($saved['activity_2'] ?? null) || empty($saved['activity_3'] ?? null))) {
+            $todoItems[] = ['label' => 'Activities Ranking', 'deadline' => 'May 1, 2026'];
+        }
         if (empty($saved['allergies'] ?? null) && ($saved['no_allergies'] ?? '') !== 'true') {
             $todoItems[] = ['label' => 'Intolerances / Allergies', 'deadline' => 'June 1, 2026'];
         }

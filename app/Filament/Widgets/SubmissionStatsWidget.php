@@ -21,6 +21,7 @@ class SubmissionStatsWidget extends StatsOverviewWidget
         // Registration: count per item + all complete
         $regSubs = $submissions->where('form_slug', FormSubmission::FORM_REGISTRATION);
         $factoryDone = 0;
+        $activitiesDone = 0;
         $allergiesDone = 0;
         $mobileDone = 0;
         $regComplete = 0;
@@ -28,14 +29,16 @@ class SubmissionStatsWidget extends StatsOverviewWidget
         foreach ($regSubs as $sub) {
             $d = $sub->data;
             $hasFactory = ! empty($d['factory_tour'] ?? null);
+            $hasActivities = ! empty($d['activity_1'] ?? null) && ! empty($d['activity_2'] ?? null) && ! empty($d['activity_3'] ?? null);
             $hasAllergies = ! empty($d['allergies'] ?? null) || ($d['no_allergies'] ?? '') === 'true';
             $hasCompanion = ($d['no_companion'] ?? '') === 'true' || ! empty($d['companion_mobile'] ?? null);
             $hasMobile = ! empty($d['mobile'] ?? null) && $hasCompanion;
 
             if ($hasFactory) $factoryDone++;
+            if ($hasActivities) $activitiesDone++;
             if ($hasAllergies) $allergiesDone++;
             if ($hasMobile) $mobileDone++;
-            if ($hasFactory && $hasAllergies && $hasMobile) $regComplete++;
+            if ($hasFactory && $hasActivities && $hasAllergies && $hasMobile) $regComplete++;
         }
 
         // Market Info: all 5 fields filled
@@ -72,6 +75,9 @@ class SubmissionStatsWidget extends StatsOverviewWidget
             Stat::make('Factory Tour', $factoryDone . ' / ' . $totalDealers)
                 ->description('Deadline: May 1')
                 ->color($factoryDone >= $totalDealers ? 'success' : 'warning'),
+            Stat::make('Activities', $activitiesDone . ' / ' . $totalDealers)
+                ->description('Deadline: May 1')
+                ->color($activitiesDone >= $totalDealers ? 'success' : 'warning'),
             Stat::make('Allergies', $allergiesDone . ' / ' . $totalDealers)
                 ->description('Deadline: June 1')
                 ->color($allergiesDone >= $totalDealers ? 'success' : 'warning'),
@@ -98,6 +104,7 @@ class SubmissionStatsWidget extends StatsOverviewWidget
         $today = Carbon::today();
         $deadlines = [
             'factory_tour' => '2026-05-01',
+            'activities' => '2026-05-01',
             'market_info' => '2026-05-15',
             'allergies' => '2026-06-01',
             'mobile_numbers' => '2026-06-10',
@@ -117,6 +124,10 @@ class SubmissionStatsWidget extends StatsOverviewWidget
             $isOverdue = false;
 
             if ($today->greaterThan($deadlines['factory_tour']) && empty($reg['factory_tour'] ?? null)) {
+                $isOverdue = true;
+            }
+            if ($today->greaterThan($deadlines['activities'])
+                && (empty($reg['activity_1'] ?? null) || empty($reg['activity_2'] ?? null) || empty($reg['activity_3'] ?? null))) {
                 $isOverdue = true;
             }
             if ($today->greaterThan($deadlines['market_info'])) {

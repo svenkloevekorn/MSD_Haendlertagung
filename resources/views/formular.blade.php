@@ -74,6 +74,7 @@
             @php
                 $hasCompanionHandled = ($saved['no_companion'] ?? '') === 'true' || ! empty($saved['companion_mobile'] ?? null);
                 $hasPhone = ! empty($saved['mobile'] ?? null) && $hasCompanionHandled;
+                $hasActivities = ($saved['no_companion'] ?? '') === 'true' || (! empty($saved['activity_1'] ?? null) && ! empty($saved['activity_2'] ?? null) && ! empty($saved['activity_3'] ?? null));
                 $hasAllergies = ! empty($saved['allergies'] ?? null) || ($saved['no_allergies'] ?? '') === 'true';
                 $hasFactoryTour = ! empty($saved['factory_tour'] ?? null);
             @endphp
@@ -87,6 +88,14 @@
                             <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
                         @endif
                         <span class="text-sm {{ $hasFactoryTour ? 'text-gray-700' : 'text-gray-400' }}">Factory Tour – <strong>Deadline: May 1, 2026</strong></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        @if($hasActivities)
+                            <svg class="w-5 h-5 text-brand-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        @else
+                            <svg class="w-5 h-5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                        @endif
+                        <span class="text-sm {{ $hasActivities ? 'text-gray-700' : 'text-gray-400' }}">Activities Ranking – <strong>Deadline: May 1, 2026</strong></span>
                     </div>
                     <div class="flex items-center gap-3">
                         @if($hasAllergies)
@@ -152,7 +161,7 @@
                     </div>
                 </div>
 
-                <!-- Accompanying Person -->
+                <!-- Accompanying Person + Activities -->
                 <div x-data="{ noCompanion: {{ old('no_companion', $saved['no_companion'] ?? '') === 'true' ? 'true' : 'false' }} }">
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Accompanying Person</h2>
                     <div class="space-y-4">
@@ -170,6 +179,58 @@
                             @enderror
                         </div>
                     </div>
+
+                <!-- Activities Ranking -->
+                <div x-show="!noCompanion" x-transition>
+                @php
+                    $act1 = old('activity_1', $saved['activity_1'] ?? '');
+                    $act2 = old('activity_2', $saved['activity_2'] ?? '');
+                    $act3 = old('activity_3', $saved['activity_3'] ?? '');
+                @endphp
+                <div x-data="{
+                    ranking: [
+                        '{{ $act1 }}',
+                        '{{ $act2 }}',
+                        '{{ $act3 }}'
+                    ].filter(v => v !== ''),
+                    options: ['Activity A', 'Activity B', 'Activity C'],
+                    toggle(option) {
+                        const idx = this.ranking.indexOf(option);
+                        if (idx > -1) {
+                            this.ranking.splice(idx, 1);
+                        } else {
+                            this.ranking.push(option);
+                        }
+                    },
+                    rank(option) {
+                        const idx = this.ranking.indexOf(option);
+                        return idx > -1 ? idx + 1 : null;
+                    }
+                }">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Activities</h2>
+                    <p class="text-sm text-gray-500 mb-4">Please rank the following activities by clicking them in order of your preference (1st = most preferred).</p>
+                    <div class="space-y-3">
+                        <template x-for="(option, i) in options" :key="option">
+                            <button type="button" @click="toggle(option)"
+                                :class="rank(option) ? 'border-gray-900 bg-gray-50' : '{{ $errors->has('activity_1') ? 'border-red-400 bg-red-50' : 'border-gray-200' }}'"
+                                class="w-full flex items-center gap-4 p-4 border rounded-xl transition hover:border-gray-300 text-left">
+                                <div :class="rank(option) ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-400'"
+                                    class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition">
+                                    <span x-text="rank(option) || '-'"></span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-700" x-text="option"></span>
+                            </button>
+                        </template>
+                    </div>
+                    <input type="hidden" name="activity_1" :value="ranking[0] || ''">
+                    <input type="hidden" name="activity_2" :value="ranking[1] || ''">
+                    <input type="hidden" name="activity_3" :value="ranking[2] || ''">
+                    @error('activity_1')
+                        <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
+                    @enderror
+                    <p class="text-xs text-gray-400 mt-2">Click again to remove from ranking. Deadline: <strong>May 1, 2026</strong></p>
+                </div>
+                </div>
                 </div>
 
                 <!-- Catering -->

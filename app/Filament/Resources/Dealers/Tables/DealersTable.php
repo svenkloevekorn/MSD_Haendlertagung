@@ -103,6 +103,9 @@ class DealersTable
         // Factory Tour
         if (empty($regData['factory_tour'] ?? null)) $count++;
 
+        // Activities
+        if (empty($regData['activity_1'] ?? null) || empty($regData['activity_2'] ?? null) || empty($regData['activity_3'] ?? null)) $count++;
+
         // Allergies
         if (empty($regData['allergies'] ?? null) && ($regData['no_allergies'] ?? '') !== 'true') $count++;
 
