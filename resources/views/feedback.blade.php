@@ -164,18 +164,6 @@
                     </div>
                 </div>
 
-                <!-- Other -->
-                <div>
-                    <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Other</h2>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Additional Comments *</label>
-                        <textarea name="additional_comments" rows="3" class="w-full px-4 py-3 border {{ $errors->has('additional_comments') ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition">{{ old('additional_comments', $saved['additional_comments'] ?? '') }}</textarea>
-                        @error('additional_comments')
-                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
                 <button type="submit" class="w-full py-3.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition text-sm">
                     Submit Feedback
                 </button>

@@ -70,7 +70,7 @@ class FeedbackController extends Controller
                 $missing["rating_{$cat}"] = 'Please rate ' . $labels[$cat] . '.';
             }
         }
-        foreach (['liked', 'improve', 'topics', 'additional_comments'] as $field) {
+        foreach (['liked', 'improve', 'topics'] as $field) {
             if (empty($data[$field])) {
                 $missing[$field] = 'Please fill in this field.';
             }
@@ -96,7 +96,7 @@ class FeedbackController extends Controller
         foreach (self::STAR_CATEGORIES as $cat) {
             if (empty($data["rating_{$cat}"] ?? null)) return false;
         }
-        foreach (['liked', 'improve', 'topics', 'additional_comments'] as $field) {
+        foreach (['liked', 'improve', 'topics'] as $field) {
             if (empty($data[$field] ?? null)) return false;
         }
         return true;
