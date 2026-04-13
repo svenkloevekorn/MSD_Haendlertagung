@@ -34,6 +34,10 @@ class DealerImporter extends Importer
             ImportColumn::make('country')
                 ->label('Country')
                 ->rules(['nullable', 'string']),
+            ImportColumn::make('is_internal')
+                ->label('Internal')
+                ->castStateUsing(fn ($state) => filter_var($state, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? false)
+                ->rules(['nullable', 'boolean']),
             ImportColumn::make('pin')
                 ->label('PIN')
                 ->rules(['nullable', 'string', 'max:6']),

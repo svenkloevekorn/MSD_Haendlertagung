@@ -20,6 +20,7 @@ class DealerExporter extends Exporter
             ExportColumn::make('last_name')->label('Last Name'),
             ExportColumn::make('email')->label('Email'),
             ExportColumn::make('country')->label('Country'),
+            ExportColumn::make('is_internal')->label('Internal'),
             ExportColumn::make('pin')->label('PIN'),
             ExportColumn::make('last_login_at')->label('Last Login'),
             ExportColumn::make('created_at')->label('Created'),

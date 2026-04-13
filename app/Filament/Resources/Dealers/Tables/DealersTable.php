@@ -9,7 +9,9 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Js;
@@ -36,6 +38,14 @@ class DealersTable
                     ->label('Country')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                IconColumn::make('is_internal')
+                    ->label('Internal')
+                    ->boolean()
+                    ->trueIcon(Heroicon::SolidBuildingOffice)
+                    ->falseIcon(Heroicon::OutlinedMinus)
+                    ->trueColor('info')
+                    ->falseColor('gray')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('todo_status')
                     ->label('Status')
                     ->getStateUsing(fn (Dealer $record) => self::getTodoCount($record))
@@ -55,7 +65,13 @@ class DealersTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([])
+            ->filters([
+                TernaryFilter::make('is_internal')
+                    ->label('Internal')
+                    ->placeholder('All')
+                    ->trueLabel('Internal only')
+                    ->falseLabel('External only'),
+            ])
             ->recordActions([
                 Action::make('copyCredentials')
                     ->label('')
@@ -83,6 +99,10 @@ class DealersTable
 
     private static function getTodoCount(Dealer $dealer): int
     {
+        if ($dealer->is_internal) {
+            return 0;
+        }
+
         $regData = FormSubmission::where('form_slug', FormSubmission::FORM_REGISTRATION)
             ->where('dealer_id', $dealer->id)->first()?->data ?? [];
         $marketData = FormSubmission::where('form_slug', FormSubmission::FORM_MARKET_INFO)

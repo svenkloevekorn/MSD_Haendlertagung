@@ -61,6 +61,17 @@
     <!-- Formular -->
     <section class="py-16 bg-white">
         <div class="max-w-2xl mx-auto px-6">
+            @if($dealer->is_internal)
+                <div class="p-6 bg-blue-50 border border-blue-200 rounded-xl">
+                    <div class="flex gap-3">
+                        <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <div>
+                            <p class="font-medium text-gray-900">No action required</p>
+                            <p class="text-sm text-gray-600 mt-1">As an internal participant, you do not need to fill out this form.</p>
+                        </div>
+                    </div>
+                </div>
+            @else
             @if(session('success'))
                 <div class="mb-8 p-6 bg-brand-green/10 border border-brand-green/20 rounded-xl">
                     <div class="flex gap-3">
@@ -278,6 +289,7 @@
                     Save Registration
                 </button>
             </form>
+            @endif
         </div>
     </section>
 

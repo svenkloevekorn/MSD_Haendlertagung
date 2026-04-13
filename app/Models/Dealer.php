@@ -14,6 +14,7 @@ class Dealer extends Model
         'email',
         'salutation',
         'country',
+        'is_internal',
         'pin',
         'last_login_at',
     ];
@@ -26,7 +27,13 @@ class Dealer extends Model
     protected function casts(): array
     {
         return [
+            'is_internal' => 'boolean',
             'last_login_at' => 'datetime',
         ];
+    }
+
+    public function scopeExternal($query)
+    {
+        return $query->where('is_internal', false);
     }
 }

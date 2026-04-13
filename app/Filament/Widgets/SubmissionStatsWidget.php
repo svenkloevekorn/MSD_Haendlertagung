@@ -15,8 +15,9 @@ class SubmissionStatsWidget extends StatsOverviewWidget
 
     protected function getStats(): array
     {
-        $totalDealers = Dealer::count();
-        $submissions = FormSubmission::all();
+        $totalDealers = Dealer::external()->count();
+        $externalDealerIds = Dealer::external()->pluck('id');
+        $submissions = FormSubmission::whereIn('dealer_id', $externalDealerIds)->get();
 
         // Registration: count per item + all complete
         $regSubs = $submissions->where('form_slug', FormSubmission::FORM_REGISTRATION);
@@ -70,7 +71,7 @@ class SubmissionStatsWidget extends StatsOverviewWidget
             if ($complete) $feedbackComplete++;
         }
 
-        $overdueCount = self::countOverdue($submissions, $totalDealers);
+        $overdueCount = self::countOverdue($submissions, $totalDealers, $externalDealerIds);
 
         return [
             Stat::make('Factory Tour', $factoryDone . ' / ' . $totalDealers)
@@ -100,7 +101,7 @@ class SubmissionStatsWidget extends StatsOverviewWidget
         ];
     }
 
-    private static function countOverdue($submissions, int $totalDealers): string
+    private static function countOverdue($submissions, int $totalDealers, $externalDealerIds): string
     {
         $today = Carbon::today();
         $deadlines = [
@@ -119,7 +120,7 @@ class SubmissionStatsWidget extends StatsOverviewWidget
         $marketByDealer = $submissions->where('form_slug', FormSubmission::FORM_MARKET_INFO)->keyBy('dealer_id');
 
         $overdueCount = 0;
-        foreach (Dealer::pluck('id') as $dealerId) {
+        foreach ($externalDealerIds as $dealerId) {
             $reg = $regByDealer->get($dealerId)?->data ?? [];
             $market = $marketByDealer->get($dealerId)?->data ?? [];
             $isOverdue = false;

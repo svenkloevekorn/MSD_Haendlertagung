@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Dealers\Schemas;
 
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -37,6 +38,10 @@ class DealerForm
                     ->unique(ignoreRecord: true)
                     ->default(fn () => strtoupper(substr(bin2hex(random_bytes(3)), 0, 6)))
                     ->helperText('6-stelliger Zugangscode (Buchstaben + Zahlen). Wird automatisch in Grossbuchstaben gespeichert.'),
+                Toggle::make('is_internal')
+                    ->label('Internal')
+                    ->helperText('Internal dealers are excluded from statistics and have no form obligations.')
+                    ->default(false),
             ]);
     }
 }

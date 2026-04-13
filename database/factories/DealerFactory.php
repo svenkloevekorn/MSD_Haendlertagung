@@ -17,6 +17,7 @@ class DealerFactory extends Factory
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'pin' => str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT),
+            'is_internal' => false,
             'last_login_at' => null,
         ];
     }

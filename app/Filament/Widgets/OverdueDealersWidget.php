@@ -33,7 +33,7 @@ class OverdueDealersWidget extends TableWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(Dealer::whereIn('id', self::getOverdueDealerIds()))
+            ->query(Dealer::external()->whereIn('id', self::getOverdueDealerIds()))
             ->emptyStateHeading('No overdue submissions')
             ->emptyStateDescription('All dealers are currently on track with their deadlines.')
             ->emptyStateIcon('heroicon-o-check-circle')
@@ -71,7 +71,7 @@ class OverdueDealersWidget extends TableWidget
             return self::$overdueIds = $ids;
         }
 
-        foreach (Dealer::all() as $dealer) {
+        foreach (Dealer::external()->get() as $dealer) {
             if (self::getOverdueItems($dealer) !== '') {
                 $ids->push($dealer->id);
             }

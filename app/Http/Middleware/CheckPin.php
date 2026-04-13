@@ -30,6 +30,14 @@ class CheckPin
         $dealer = Dealer::find($dealerId);
         View::share('dealer', $dealer);
 
+        // Internal dealers have no form obligations
+        if ($dealer->is_internal) {
+            View::share('hasFeedback', true);
+            View::share('todoItems', []);
+
+            return $next($request);
+        }
+
         $saved = FormSubmission::where('form_slug', FormSubmission::FORM_REGISTRATION)
             ->where('dealer_id', $dealerId)
             ->first()?->data ?? [];
