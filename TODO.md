@@ -14,6 +14,8 @@
 
 ## Erledigt
 
+- [x] Interne Dealer: Toggle im Admin, aus Statistiken ausgeschlossen, Hinweis statt Formulare
+
 - [x] Grundstruktur der Website (7 Seiten)
 - [x] Startseite mit Hero, Überblick, Hotel, Dresscode
 - [x] Agenda mit Tages-Tabs und Timeline
