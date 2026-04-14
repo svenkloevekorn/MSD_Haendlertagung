@@ -61,7 +61,17 @@
     <!-- Form -->
     <section class="py-16 bg-white">
         <div class="max-w-2xl mx-auto px-6">
-            @if($dealer->is_internal)
+            @if(! ($enabled ?? true))
+                <div class="p-6 bg-amber-50 border border-amber-200 rounded-xl">
+                    <div class="flex gap-3">
+                        <svg class="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+                        <div>
+                            <p class="font-medium text-gray-900">Coming soon</p>
+                            <p class="text-sm text-gray-600 mt-1">The Market Info form will be activated shortly. Please check back later.</p>
+                        </div>
+                    </div>
+                </div>
+            @elseif($dealer->is_internal)
                 <div class="p-6 bg-blue-50 border border-blue-200 rounded-xl">
                     <div class="flex gap-3">
                         <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -84,7 +94,7 @@
             <div class="mb-8 p-6 bg-brand-green/10 border border-brand-green/20 rounded-xl">
                 <div class="flex gap-3">
                     <svg class="w-5 h-5 text-brand-green mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    <p class="text-gray-700">Please submit your market information by <strong class="text-gray-900">May 15, 2026</strong>.</p>
+                    <p class="text-gray-700">Please submit your market information by <strong class="text-gray-900">May 29, 2026</strong>.</p>
                 </div>
             </div>
 

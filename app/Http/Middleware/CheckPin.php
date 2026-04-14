@@ -59,7 +59,7 @@ class CheckPin
             && ! empty($marketSaved['competitors'] ?? null)
             && ! empty($marketSaved['expectations'] ?? null));
         if (! $hasMarketInfo) {
-            $todoItems[] = ['label' => 'Market Info', 'deadline' => 'May 15, 2026', 'route' => 'market-info'];
+            $todoItems[] = ['label' => 'Market Info', 'deadline' => 'May 29, 2026', 'route' => 'market-info'];
         }
         if (! $hasFeedback) {
             $todoItems[] = ['label' => 'Feedback', 'route' => 'feedback'];

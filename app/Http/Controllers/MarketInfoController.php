@@ -19,12 +19,17 @@ class MarketInfoController extends Controller
             ->first();
 
         $saved = $submission?->data ?? [];
+        $enabled = Setting::get('market_info_enabled', '1') === '1';
 
-        return view('market-info', compact('saved'));
+        return view('market-info', compact('saved', 'enabled'));
     }
 
     public function submit(Request $request): RedirectResponse
     {
+        if (Setting::get('market_info_enabled', '1') !== '1') {
+            return redirect()->route('market-info');
+        }
+
         $dealer = Dealer::find(session('dealer_id'));
         $delegatedTo = $request->input('delegated_to', '');
         $isDelegated = $request->has('delegated') && ! empty($delegatedTo);
