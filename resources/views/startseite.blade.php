@@ -81,7 +81,10 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="relative pt-40 pb-28 md:pt-52 md:pb-40 bg-cover bg-center" style="background-image: url('{{ asset('assets/images/bg2.jpg') }}');">
+<section class="relative pt-40 pb-28 md:pt-52 md:pb-40 bg-cover bg-center overflow-hidden" style="background-image: url('{{ asset('assets/images/bg2.jpg') }}');">
+    <video class="absolute inset-0 w-full h-full object-cover" autoplay loop muted playsinline preload="auto" poster="{{ asset('assets/images/bg2.jpg') }}">
+        <source src="{{ asset('assets/images/bg2.mp4') }}" type="video/mp4">
+    </video>
     <div class="absolute inset-0 mix-blend-multiply" style="background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.4));"></div>
     <div class="relative max-w-6xl mx-auto px-6">
         <div class="max-w-3xl">
