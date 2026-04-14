@@ -41,7 +41,7 @@ class DealersTable
                 IconColumn::make('is_internal')
                     ->label('Internal')
                     ->boolean()
-                    ->trueIcon(Heroicon::SolidBuildingOffice)
+                    ->trueIcon(Heroicon::BuildingOffice)
                     ->falseIcon(Heroicon::OutlinedMinus)
                     ->trueColor('info')
                     ->falseColor('gray')
