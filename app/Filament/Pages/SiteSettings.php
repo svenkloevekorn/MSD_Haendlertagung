@@ -6,6 +6,7 @@ use App\Models\Setting;
 use BackedEnum;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -35,6 +36,7 @@ class SiteSettings extends Page
             'mail_from_address' => Setting::get('mail_from_address', 'info@muehlen-sohn.de'),
             'confirmation_registration' => Setting::get('confirmation_registration', 'Thank you for your registration! We look forward to seeing you.'),
             'confirmation_feedback' => Setting::get('confirmation_feedback', 'Thank you for your feedback! Your input helps us improve.'),
+            'market_info_enabled' => Setting::get('market_info_enabled', '1') === '1',
         ]);
     }
 
@@ -55,6 +57,13 @@ class SiteSettings extends Page
                             ->email()
                             ->required(),
                     ]),
+                Section::make('Market Info Form')
+                    ->description('Control whether dealers can access the Market Info form.')
+                    ->schema([
+                        Toggle::make('market_info_enabled')
+                            ->label('Market Info form active')
+                            ->helperText('When disabled, users see a "coming soon" notice instead of the form.'),
+                    ]),
                 Section::make('Confirmation Messages')
                     ->description('Shown to users after they submit a form.')
                     ->schema([
@@ -73,6 +82,9 @@ class SiteSettings extends Page
         $data = $this->form->getState();
 
         foreach ($data as $key => $value) {
+            if (is_bool($value)) {
+                $value = $value ? '1' : '0';
+            }
             Setting::set($key, $value);
         }
 

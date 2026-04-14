@@ -239,7 +239,7 @@
                                 <span class="text-sm text-gray-700">Market Info</span>
                             @endif
                         </div>
-                        <span class="text-xs {{ $hasMarketInfo ? 'text-gray-400' : 'text-red-500 font-medium' }}">May 15, 2026</span>
+                        <span class="text-xs {{ $hasMarketInfo ? 'text-gray-400' : 'text-red-500 font-medium' }}">May 29, 2026</span>
                     </div>
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">

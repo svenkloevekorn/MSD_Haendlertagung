@@ -204,32 +204,51 @@
                         '{{ $act2 }}',
                         '{{ $act3 }}'
                     ].filter(v => v !== ''),
-                    options: ['Activity A', 'Activity B', 'Activity C'],
-                    toggle(option) {
-                        const idx = this.ranking.indexOf(option);
+                    options: [
+                        {
+                            id: 'kessler',
+                            title: 'Guided cellar tour at Kessler – Germany\'s oldest sparkling wine brand',
+                            description: 'Discover the historic Kessler sparkling wine cellars on a guided tour. Learn about traditional sparkling wine production, explore the atmospheric vaulted cellars, and gain insight into the heritage of Germany\'s oldest sparkling wine brand.'
+                        },
+                        {
+                            id: 'meersburg',
+                            title: 'Visit to Meersburg Castle on Lake Constance – Germany\'s oldest inhabited castle',
+                            description: 'Explore Meersburg Castle, dramatically located above Lake Constance. Walk through its historic rooms and courtyards, enjoy impressive views over the lake, and delve into the castle\'s long and fascinating history.'
+                        },
+                        {
+                            id: 'alpsee',
+                            title: 'Easy walk in the Alpsee Bergwelt with panoramic views of Lake Alpsee',
+                            description: 'Enjoy an easy, relaxed walk in the Alpsee Bergwelt high above Lake Alpsee. From this elevated vantage point, you can take in beautiful panoramic views of the lake and the surrounding Alpine scenery, without any demanding hiking sections.'
+                        }
+                    ],
+                    toggle(id) {
+                        const idx = this.ranking.indexOf(id);
                         if (idx > -1) {
                             this.ranking.splice(idx, 1);
                         } else {
-                            this.ranking.push(option);
+                            this.ranking.push(id);
                         }
                     },
-                    rank(option) {
-                        const idx = this.ranking.indexOf(option);
+                    rank(id) {
+                        const idx = this.ranking.indexOf(id);
                         return idx > -1 ? idx + 1 : null;
                     }
                 }">
                     <h2 class="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">Activities (Partner Program)</h2>
                     <p class="text-sm text-gray-500 mb-4">Please rank the following activities by clicking them in order of your preference (1st = most preferred).</p>
                     <div class="space-y-3">
-                        <template x-for="(option, i) in options" :key="option">
-                            <button type="button" @click="toggle(option)"
-                                :class="rank(option) ? 'border-gray-900 bg-gray-50' : '{{ $errors->has('activity_1') ? 'border-red-400 bg-red-50' : 'border-gray-200' }}'"
-                                class="w-full flex items-center gap-4 p-4 border rounded-xl transition hover:border-gray-300 text-left">
-                                <div :class="rank(option) ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-400'"
-                                    class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition">
-                                    <span x-text="rank(option) || '-'"></span>
+                        <template x-for="option in options" :key="option.id">
+                            <button type="button" @click="toggle(option.id)"
+                                :class="rank(option.id) ? 'border-gray-900 bg-gray-50' : '{{ $errors->has('activity_1') ? 'border-red-400 bg-red-50' : 'border-gray-200' }}'"
+                                class="w-full flex items-start gap-4 p-4 border rounded-xl transition hover:border-gray-300 text-left">
+                                <div :class="rank(option.id) ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-400'"
+                                    class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition mt-0.5">
+                                    <span x-text="rank(option.id) || '-'"></span>
                                 </div>
-                                <span class="text-sm font-medium text-gray-700" x-text="option"></span>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-900" x-text="option.title"></p>
+                                    <p class="text-xs text-gray-500 mt-1 leading-relaxed" x-text="option.description"></p>
+                                </div>
                             </button>
                         </template>
                     </div>
