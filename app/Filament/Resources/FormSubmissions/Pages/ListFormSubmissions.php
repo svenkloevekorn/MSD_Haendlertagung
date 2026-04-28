@@ -30,8 +30,8 @@ class ListFormSubmissions extends ListRecords
                 ->action(fn (): StreamedResponse => self::exportForm(
                     FormSubmission::FORM_MARKET_INFO,
                     'market-info',
-                    ['First Name', 'Last Name', 'Delegated to', 'MS Market Share', 'Challenges', 'Chances / Potential', 'Competitors', 'Expectations'],
-                    ['first_name', 'last_name', 'delegated_to', 'market_share', 'challenges', 'chances_potential', 'competitors', 'expectations'],
+                    ['First Name', 'Last Name', 'Delegated to', 'Number of Corrugators', 'Total Belt Market Size (m²)', 'MS Share %', 'Competitor A Name', 'Competitor A %', 'Competitor B Name', 'Competitor B %', 'Competitor C Name', 'Competitor C %', 'Others %', 'Order Situation', 'Price Level', 'Capacity Utilization', 'Machine Investments', 'Role of Large Groups', 'SWOT Strengths', 'SWOT Weaknesses', 'SWOT Opportunities', 'SWOT Threats'],
+                    ['first_name', 'last_name', 'delegated_to', 'number_of_corrugators', 'total_belt_market_size_m2', 'ms_market_share_pct', 'competitor_a_name', 'competitor_a_pct', 'competitor_b_name', 'competitor_b_pct', 'competitor_c_name', 'competitor_c_pct', 'others_market_share_pct', 'order_situation', 'price_level', 'capacity_utilization', 'machine_investments', 'role_of_large_groups', 'swot_strengths', 'swot_weaknesses', 'swot_opportunities', 'swot_threats'],
                 )),
             Action::make('exportFeedback')
                 ->label('Export Feedback')

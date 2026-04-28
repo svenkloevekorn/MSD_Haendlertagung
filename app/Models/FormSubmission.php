@@ -36,4 +36,30 @@ class FormSubmission extends Model
     {
         return self::$formLabels[$this->form_slug] ?? $this->form_slug;
     }
+
+    public const MARKET_INFO_REQUIRED_FIELDS = [
+        'number_of_corrugators',
+        'total_belt_market_size_m2',
+        'ms_market_share_pct',
+        'competitor_a_name', 'competitor_a_pct',
+        'competitor_b_name', 'competitor_b_pct',
+        'competitor_c_name', 'competitor_c_pct',
+        'others_market_share_pct',
+        'order_situation', 'price_level', 'capacity_utilization',
+        'machine_investments', 'role_of_large_groups',
+        'swot_strengths', 'swot_weaknesses', 'swot_opportunities', 'swot_threats',
+    ];
+
+    public static function isMarketInfoComplete(array $data): bool
+    {
+        if (! empty($data['delegated_to'] ?? null)) {
+            return true;
+        }
+        foreach (self::MARKET_INFO_REQUIRED_FIELDS as $field) {
+            if (($data[$field] ?? '') === '' || ($data[$field] ?? null) === null) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

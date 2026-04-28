@@ -23,7 +23,7 @@ class OverdueDealersWidget extends TableWidget
     private static array $deadlines = [
         'factory_tour' => '2026-05-01',
         'activities' => '2026-05-01',
-        'market_info' => '2026-05-15',
+        'market_info' => '2026-05-29',
         'allergies' => '2026-06-01',
         'mobile_numbers' => '2026-06-10',
     ];
@@ -101,14 +101,9 @@ class OverdueDealersWidget extends TableWidget
             $overdue[] = '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">Activities</span>';
         }
 
-        // Market Info - May 15
-        $hasMarketInfo = ! empty($marketData['delegated_to'] ?? null)
-            || (! empty($marketData['market_share'] ?? null)
-            && ! empty($marketData['challenges'] ?? null)
-            && ! empty($marketData['chances_potential'] ?? null)
-            && ! empty($marketData['competitors'] ?? null)
-            && ! empty($marketData['expectations'] ?? null));
-        if ($today->greaterThan(self::$deadlines['market_info']) && ! $hasMarketInfo) {
+        // Market Info - May 29
+        if ($today->greaterThan(self::$deadlines['market_info'])
+            && ! FormSubmission::isMarketInfoComplete($marketData)) {
             $overdue[] = '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">Market Info</span>';
         }
 

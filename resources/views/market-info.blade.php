@@ -131,22 +131,157 @@
                     </div>
                 </div>
 
-                <div x-show="!delegated" x-transition>
-                @foreach([
-                    'market_share' => ['label' => 'MS Market Share', 'placeholder' => 'Describe your current market share...'],
-                    'challenges' => ['label' => 'Challenges', 'placeholder' => 'What challenges do you face in your market?'],
-                    'chances_potential' => ['label' => 'Chances / Potential', 'placeholder' => 'What opportunities and potential do you see?'],
-                    'competitors' => ['label' => 'Competitors and their Strengths', 'placeholder' => 'Who are the main competitors and what are their strengths?'],
-                    'expectations' => ['label' => 'Your Expectations / Requests to MS', 'placeholder' => 'What do you expect or request from Mühlen Sohn?'],
-                ] as $field => $meta)
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">{{ $meta['label'] }} *</label>
-                    <textarea name="{{ $field }}" rows="4" class="w-full px-4 py-3 border {{ $errors->has($field) ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="{{ $meta['placeholder'] }}">{{ old($field, $saved[$field] ?? '') }}</textarea>
-                    @error($field)
-                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-                @endforeach
+                <div x-show="!delegated" x-transition class="space-y-12">
+
+                    <!-- Section 1: MARKET OVERVIEW -->
+                    <div>
+                        <div class="border-b border-gray-200 pb-3 mb-6">
+                            <h3 class="text-sm font-semibold uppercase tracking-widest text-gray-900">Market Overview</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <!-- Number of Corrugators -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Number of Corrugators *</label>
+                                <input type="number" min="0" step="1" inputmode="numeric" name="number_of_corrugators"
+                                    value="{{ old('number_of_corrugators', $saved['number_of_corrugators'] ?? '') }}"
+                                    class="w-full px-4 py-3 border {{ $errors->has('number_of_corrugators') ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                                    placeholder="0">
+                                @error('number_of_corrugators')
+                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Total Belt Market Size in m² -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Total Belt Market Size *</label>
+                                <div class="relative">
+                                    <input type="number" min="0" step="0.01" inputmode="decimal" name="total_belt_market_size_m2"
+                                        value="{{ old('total_belt_market_size_m2', $saved['total_belt_market_size_m2'] ?? '') }}"
+                                        class="w-full px-4 py-3 pr-12 border {{ $errors->has('total_belt_market_size_m2') ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                                        placeholder="0">
+                                    <span class="absolute inset-y-0 right-3 flex items-center text-gray-400 text-sm pointer-events-none">m²</span>
+                                </div>
+                                @error('total_belt_market_size_m2')
+                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Section 2: MARKET SHARE BY PLAYER -->
+                    <div>
+                        <div class="border-b border-gray-200 pb-3 mb-6">
+                            <h3 class="text-sm font-semibold uppercase tracking-widest text-gray-900">Market Share by Player</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <!-- Mühlen Sohn -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Mühlen Sohn Market Share *</label>
+                                <div class="relative">
+                                    <input type="number" min="0" max="100" step="0.01" inputmode="decimal" name="ms_market_share_pct"
+                                        value="{{ old('ms_market_share_pct', $saved['ms_market_share_pct'] ?? '') }}"
+                                        class="w-full px-4 py-3 pr-10 border {{ $errors->has('ms_market_share_pct') ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                                        placeholder="0">
+                                    <span class="absolute inset-y-0 right-3 flex items-center text-gray-400 text-sm pointer-events-none">%</span>
+                                </div>
+                                @error('ms_market_share_pct')
+                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Competitors A, B, C -->
+                            @foreach(['a', 'b', 'c'] as $key)
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Competitor {{ strtoupper($key) }} Market Share *</label>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <div class="md:col-span-2">
+                                        <input type="text" name="competitor_{{ $key }}_name"
+                                            value="{{ old("competitor_{$key}_name", $saved["competitor_{$key}_name"] ?? '') }}"
+                                            class="w-full px-4 py-3 border {{ $errors->has("competitor_{$key}_name") ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                                            placeholder="Name of competitor">
+                                    </div>
+                                    <div class="relative">
+                                        <input type="number" min="0" max="100" step="0.01" inputmode="decimal" name="competitor_{{ $key }}_pct"
+                                            value="{{ old("competitor_{$key}_pct", $saved["competitor_{$key}_pct"] ?? '') }}"
+                                            class="w-full px-4 py-3 pr-10 border {{ $errors->has("competitor_{$key}_pct") ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                                            placeholder="0">
+                                        <span class="absolute inset-y-0 right-3 flex items-center text-gray-400 text-sm pointer-events-none">%</span>
+                                    </div>
+                                </div>
+                                @error("competitor_{$key}_name")
+                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                @enderror
+                                @error("competitor_{$key}_pct")
+                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            @endforeach
+
+                            <!-- Others -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Others Market Share *</label>
+                                <div class="relative">
+                                    <input type="number" min="0" max="100" step="0.01" inputmode="decimal" name="others_market_share_pct"
+                                        value="{{ old('others_market_share_pct', $saved['others_market_share_pct'] ?? '') }}"
+                                        class="w-full px-4 py-3 pr-10 border {{ $errors->has('others_market_share_pct') ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                                        placeholder="0">
+                                    <span class="absolute inset-y-0 right-3 flex items-center text-gray-400 text-sm pointer-events-none">%</span>
+                                </div>
+                                @error('others_market_share_pct')
+                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: MARKET SITUATION -->
+                    <div>
+                        <div class="border-b border-gray-200 pb-3 mb-6">
+                            <h3 class="text-sm font-semibold uppercase tracking-widest text-gray-900">Market Situation</h3>
+                        </div>
+                        <div class="space-y-6">
+                            @foreach([
+                                'order_situation' => ['label' => 'Order Situation', 'placeholder' => 'Describe the current order situation in your market...'],
+                                'price_level' => ['label' => 'Price Level', 'placeholder' => 'How is the current price level developing?'],
+                                'capacity_utilization' => ['label' => 'Capacity Utilization', 'placeholder' => 'How is capacity utilization in your market?'],
+                                'machine_investments' => ['label' => 'Machine Investments', 'placeholder' => 'What are customers investing in / planning to invest in?'],
+                                'role_of_large_groups' => ['label' => 'Role of Large Groups', 'placeholder' => 'What role do large groups play in your market?'],
+                            ] as $field => $meta)
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">{{ $meta['label'] }} *</label>
+                                <textarea name="{{ $field }}" rows="4" class="w-full px-4 py-3 border {{ $errors->has($field) ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="{{ $meta['placeholder'] }}">{{ old($field, $saved[$field] ?? '') }}</textarea>
+                                @error($field)
+                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Section 4: SWOT OVERVIEW -->
+                    <div>
+                        <div class="border-b border-gray-200 pb-3 mb-6">
+                            <h3 class="text-sm font-semibold uppercase tracking-widest text-gray-900">SWOT Overview</h3>
+                        </div>
+                        <div class="space-y-6">
+                            @foreach([
+                                'swot_strengths' => ['label' => 'Strengths', 'placeholder' => 'Internal strengths of your business / market position...'],
+                                'swot_weaknesses' => ['label' => 'Weaknesses', 'placeholder' => 'Internal weaknesses to be aware of...'],
+                                'swot_opportunities' => ['label' => 'Opportunities', 'placeholder' => 'External opportunities you see in the market...'],
+                                'swot_threats' => ['label' => 'Threats', 'placeholder' => 'External threats or risks in the market...'],
+                            ] as $field => $meta)
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">{{ $meta['label'] }} *</label>
+                                <textarea name="{{ $field }}" rows="4" class="w-full px-4 py-3 border {{ $errors->has($field) ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition" placeholder="{{ $meta['placeholder'] }}">{{ old($field, $saved[$field] ?? '') }}</textarea>
+                                @error($field)
+                                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
                 </div>
 
                 <button type="submit" class="w-full py-3.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition text-sm">
