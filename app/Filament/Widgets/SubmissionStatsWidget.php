@@ -42,16 +42,10 @@ class SubmissionStatsWidget extends StatsOverviewWidget
             if ($hasFactory && $hasActivities && $hasAllergies && $hasMobile) $regComplete++;
         }
 
-        // Market Info: all 5 fields filled or delegated
+        // Market Info: all required fields filled or delegated
         $marketComplete = 0;
         foreach ($submissions->where('form_slug', FormSubmission::FORM_MARKET_INFO) as $sub) {
-            $d = $sub->data;
-            if (! empty($d['delegated_to'] ?? null)
-                || (! empty($d['market_share'] ?? null)
-                && ! empty($d['challenges'] ?? null)
-                && ! empty($d['chances_potential'] ?? null)
-                && ! empty($d['competitors'] ?? null)
-                && ! empty($d['expectations'] ?? null))) {
+            if (FormSubmission::isMarketInfoComplete($sub->data ?? [])) {
                 $marketComplete++;
             }
         }
@@ -87,7 +81,7 @@ class SubmissionStatsWidget extends StatsOverviewWidget
                 ->description('Deadline: June 10')
                 ->color($mobileDone >= $totalDealers ? 'success' : 'warning'),
             Stat::make('Market Info', $marketComplete . ' / ' . $totalDealers)
-                ->description('Deadline: May 15')
+                ->description('Deadline: May 29')
                 ->color($marketComplete >= $totalDealers ? 'success' : 'warning'),
             Stat::make('Feedback', $feedbackComplete . ' / ' . $totalDealers)
                 ->description('Complete submissions')
@@ -107,7 +101,7 @@ class SubmissionStatsWidget extends StatsOverviewWidget
         $deadlines = [
             'factory_tour' => '2026-05-01',
             'activities' => '2026-05-01',
-            'market_info' => '2026-05-15',
+            'market_info' => '2026-05-29',
             'allergies' => '2026-06-01',
             'mobile_numbers' => '2026-06-10',
         ];
@@ -133,11 +127,7 @@ class SubmissionStatsWidget extends StatsOverviewWidget
                 $isOverdue = true;
             }
             if ($today->greaterThan($deadlines['market_info'])) {
-                $hasMarket = !empty($market['delegated_to'] ?? null)
-                    || (!empty($market['market_share'] ?? null) && !empty($market['challenges'] ?? null)
-                    && !empty($market['chances_potential'] ?? null) && !empty($market['competitors'] ?? null)
-                    && !empty($market['expectations'] ?? null));
-                if (!$hasMarket) $isOverdue = true;
+                if (! FormSubmission::isMarketInfoComplete($market)) $isOverdue = true;
             }
             if ($today->greaterThan($deadlines['allergies']) && empty($reg['allergies'] ?? null) && ($reg['no_allergies'] ?? '') !== 'true') {
                 $isOverdue = true;
