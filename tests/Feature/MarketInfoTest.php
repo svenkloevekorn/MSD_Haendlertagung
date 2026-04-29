@@ -31,6 +31,19 @@ class MarketInfoTest extends TestCase
         return [
             'number_of_corrugators' => '15',
             'total_belt_market_size_m2' => '12000',
+            'machine_width_lt_22' => '10',
+            'machine_width_22_24' => '20',
+            'machine_width_25_27' => '30',
+            'machine_width_28_30' => '25',
+            'machine_width_gt_30' => '15',
+            'machine_speed_lt_60' => '50',
+            'machine_speed_60_100' => '80',
+            'machine_speed_100_150' => '120',
+            'machine_speed_150_200' => '170',
+            'machine_speed_200_300' => '250',
+            'machine_speed_gt_300' => '320',
+            'owner_groups_pct' => '60',
+            'owner_independents_pct' => '40',
             'ms_market_share_pct' => '35',
             'competitor_a_name' => 'Comp A',
             'competitor_a_pct' => '25',
@@ -83,7 +96,7 @@ class MarketInfoTest extends TestCase
         $this->assertEquals('Comp A', $submission->data['competitor_a_name']);
     }
 
-    public function test_partial_submission_returns_validation_errors(): void
+    public function test_partial_submission_is_saved_with_warning(): void
     {
         $response = $this->withSession($this->authenticatedSession())
             ->post('/market-info', [
@@ -91,14 +104,12 @@ class MarketInfoTest extends TestCase
             ]);
 
         $response->assertRedirect('/market-info');
-        $response->assertSessionHasErrors([
-            'number_of_corrugators',
-            'total_belt_market_size_m2',
-            'competitor_a_name',
-            'swot_strengths',
-        ]);
+        $response->assertSessionHas('warning');
+        $response->assertSessionMissing('errors');
 
         $submission = FormSubmission::where('form_slug', FormSubmission::FORM_MARKET_INFO)->first();
+        $this->assertNotNull($submission);
+        $this->assertEquals('35', $submission->data['ms_market_share_pct']);
         $this->assertFalse(FormSubmission::isMarketInfoComplete($submission->data));
     }
 

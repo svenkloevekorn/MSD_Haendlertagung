@@ -40,6 +40,19 @@ class MarketInfoController extends Controller
             'delegated_to' => $delegatedTo,
             'number_of_corrugators' => $request->input('number_of_corrugators', ''),
             'total_belt_market_size_m2' => $request->input('total_belt_market_size_m2', ''),
+            'machine_width_lt_22' => $request->input('machine_width_lt_22', ''),
+            'machine_width_22_24' => $request->input('machine_width_22_24', ''),
+            'machine_width_25_27' => $request->input('machine_width_25_27', ''),
+            'machine_width_28_30' => $request->input('machine_width_28_30', ''),
+            'machine_width_gt_30' => $request->input('machine_width_gt_30', ''),
+            'machine_speed_lt_60' => $request->input('machine_speed_lt_60', ''),
+            'machine_speed_60_100' => $request->input('machine_speed_60_100', ''),
+            'machine_speed_100_150' => $request->input('machine_speed_100_150', ''),
+            'machine_speed_150_200' => $request->input('machine_speed_150_200', ''),
+            'machine_speed_200_300' => $request->input('machine_speed_200_300', ''),
+            'machine_speed_gt_300' => $request->input('machine_speed_gt_300', ''),
+            'owner_groups_pct' => $request->input('owner_groups_pct', ''),
+            'owner_independents_pct' => $request->input('owner_independents_pct', ''),
             'ms_market_share_pct' => $request->input('ms_market_share_pct', ''),
             'competitor_a_name' => $request->input('competitor_a_name', ''),
             'competitor_a_pct' => $request->input('competitor_a_pct', ''),
@@ -79,41 +92,12 @@ class MarketInfoController extends Controller
             return redirect()->route('market-info')->with('success', $confirmation);
         }
 
-        // Check for missing fields
-        $missing = [];
-        $messages = [
-            'number_of_corrugators' => 'Please enter the Number of Corrugators.',
-            'total_belt_market_size_m2' => 'Please enter the Total Belt Market Size.',
-            'ms_market_share_pct' => 'Please enter the Mühlen Sohn Market Share.',
-            'competitor_a_name' => 'Please enter the name of Competitor A.',
-            'competitor_a_pct' => 'Please enter the market share of Competitor A.',
-            'competitor_b_name' => 'Please enter the name of Competitor B.',
-            'competitor_b_pct' => 'Please enter the market share of Competitor B.',
-            'competitor_c_name' => 'Please enter the name of Competitor C.',
-            'competitor_c_pct' => 'Please enter the market share of Competitor C.',
-            'others_market_share_pct' => 'Please enter the Others Market Share.',
-            'order_situation' => 'Please fill in the Order Situation field.',
-            'price_level' => 'Please fill in the Price Level field.',
-            'capacity_utilization' => 'Please fill in the Capacity Utilization field.',
-            'machine_investments' => 'Please fill in the Machine Investments field.',
-            'role_of_large_groups' => 'Please fill in the Role of Large Groups field.',
-            'swot_strengths' => 'Please fill in the Strengths field.',
-            'swot_weaknesses' => 'Please fill in the Weaknesses field.',
-            'swot_opportunities' => 'Please fill in the Opportunities field.',
-            'swot_threats' => 'Please fill in the Threats field.',
-        ];
-        foreach ($messages as $field => $msg) {
-            if (empty($saveData[$field])) {
-                $missing[$field] = $msg;
-            }
-        }
-
         $confirmation = Setting::get('confirmation_market_info', 'Your market information has been saved!');
 
-        if (! empty($missing)) {
+        // Form already saved above. If required fields are missing, show non-blocking warning.
+        if (! FormSubmission::isMarketInfoComplete($saveData)) {
             return redirect()->route('market-info')
-                ->withErrors($missing)
-                ->withInput();
+                ->with('warning', 'Your entries have been saved, but some required fields are still empty. Please complete them before the deadline.');
         }
 
         return redirect()->route('market-info')->with('success', $confirmation);
