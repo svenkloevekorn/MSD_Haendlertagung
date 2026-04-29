@@ -91,6 +91,15 @@
                 </div>
             @endif
 
+            @if(session('warning'))
+                <div class="mb-8 p-6 bg-amber-50 border border-amber-200 rounded-xl">
+                    <div class="flex gap-3">
+                        <svg class="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                        <p class="text-gray-700">{{ session('warning') }}</p>
+                    </div>
+                </div>
+            @endif
+
             <div class="mb-8 p-6 bg-brand-green/10 border border-brand-green/20 rounded-xl">
                 <div class="flex gap-3">
                     <svg class="w-5 h-5 text-brand-green mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -164,6 +173,85 @@
                                 @error('total_belt_market_size_m2')
                                     <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                                 @enderror
+                            </div>
+
+                            <!-- Machine Width in % -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Machine Width in % *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                                    @foreach([
+                                        'machine_width_lt_22' => '< 2.2 m',
+                                        'machine_width_22_24' => '2.2 - 2.4 m',
+                                        'machine_width_25_27' => '2.5 - 2.7 m',
+                                        'machine_width_28_30' => '2.8 - 3.0 m',
+                                        'machine_width_gt_30' => '> 3.0 m',
+                                    ] as $field => $label)
+                                    <div>
+                                        <label class="block text-xs font-medium text-gray-600 mb-1.5">{{ $label }}</label>
+                                        <div class="relative">
+                                            <input type="number" min="0" max="100" step="0.01" inputmode="decimal" name="{{ $field }}"
+                                                value="{{ old($field, $saved[$field] ?? '') }}"
+                                                class="w-full px-4 py-3 pr-10 border {{ $errors->has($field) ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                                                placeholder="0">
+                                            <span class="absolute inset-y-0 right-3 flex items-center text-gray-400 text-sm pointer-events-none">%</span>
+                                        </div>
+                                        @error($field)
+                                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Machine Speeds in m/min (average) -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Machine Speeds in m/min (average) *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    @foreach([
+                                        'machine_speed_lt_60' => '< 60 m/min',
+                                        'machine_speed_60_100' => '60 - 100 m/min',
+                                        'machine_speed_100_150' => '100 - 150 m/min',
+                                        'machine_speed_150_200' => '150 - 200 m/min',
+                                        'machine_speed_200_300' => '200 - 300 m/min',
+                                        'machine_speed_gt_300' => '> 300 m/min',
+                                    ] as $field => $label)
+                                    <div>
+                                        <label class="block text-xs font-medium text-gray-600 mb-1.5">{{ $label }}</label>
+                                        <input type="number" min="0" step="1" inputmode="numeric" name="{{ $field }}"
+                                            value="{{ old($field, $saved[$field] ?? '') }}"
+                                            class="w-full px-4 py-3 border {{ $errors->has($field) ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                                            placeholder="0">
+                                        @error($field)
+                                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Owner of the Corrugators in % -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Owner of the Corrugators in % *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    @foreach([
+                                        'owner_groups_pct' => 'Groups',
+                                        'owner_independents_pct' => 'Independents',
+                                    ] as $field => $label)
+                                    <div>
+                                        <label class="block text-xs font-medium text-gray-600 mb-1.5">{{ $label }}</label>
+                                        <div class="relative">
+                                            <input type="number" min="0" max="100" step="0.01" inputmode="decimal" name="{{ $field }}"
+                                                value="{{ old($field, $saved[$field] ?? '') }}"
+                                                class="w-full px-4 py-3 pr-10 border {{ $errors->has($field) ? 'border-red-400 ring-2 ring-red-100' : 'border-gray-200' }} rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition"
+                                                placeholder="0">
+                                            <span class="absolute inset-y-0 right-3 flex items-center text-gray-400 text-sm pointer-events-none">%</span>
+                                        </div>
+                                        @error($field)
+                                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    @endforeach
+                                </div>
                             </div>
 
                         </div>
